@@ -1,0 +1,12 @@
+@component('emails/layout', { title, lang })
+  <h1 style="margin:0 0 16px;font-size:20px;line-height:1.3;">{{ heading }}</h1>
+  <p style="margin:0 0 16px;">{{ received }}</p>
+  @if(interests)
+    <p style="margin:0 0 16px;">{{ interests }}</p>
+  @end
+  @if(reply)
+    <p style="margin:0 0 16px;">{{ reply }}</p>
+  @end
+
+  <p style="margin:24px 0 0;font-size:13px;color:#676b74;">{{ footer }}</p>
+@end

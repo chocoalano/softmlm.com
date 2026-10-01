@@ -1,0 +1,25 @@
+{
+  "extends": "@adonisjs/tsconfig/tsconfig.client.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "module": "ESNext",
+    "jsxImportSource": "vue",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "@generated/*": [
+        "../.adonisjs/client/*"
+      ],
+      "@shared/*": [
+        "../shared/*"
+      ]
+    }
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.vue",
+    "../.adonisjs/client/**/*.ts",
+    "../.adonisjs/server/**/*.ts"
+  ]
+}

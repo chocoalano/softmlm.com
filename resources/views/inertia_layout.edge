@@ -1,0 +1,70 @@
+{{--
+  Marketing pages (they carry a `seo` prop, or are the marketing 404) get:
+  - <html lang> from the URL's locale;
+  - the visitor's theme choice from its cookie (data-site-theme), and for an
+    explicit light/dark choice the scheme itself (data-site-scheme). For
+    "system" the browser resolves the scheme before the app mounts;
+  - title, description, canonical and hreflang alternates in the HTML.
+  The Inertia <Head> on the page takes the same tags over once it loads.
+--}}
+@let(props = page.props)
+@let(marketing = Boolean(props.seo) || ['marketing_not_found', 'errors/server_error'].includes(page.component))
+@let(siteTheme = props.siteTheme || 'system')
+<!DOCTYPE html>
+<html
+  lang="{{ props.locale || 'en' }}"
+  data-theme="{{ request.plainCookie('app_theme', { defaultValue: 'light', encoded: false }) }}"
+  @if(marketing)
+    class="site-root"
+    data-site-theme="{{ siteTheme }}"
+    @if(siteTheme !== 'system')
+      data-site-scheme="{{ siteTheme }}"
+    @end
+  @end
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#005dfb" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    @if(props.seo)
+      <title data-inertia>{{ props.seo.title }} | {{ brandName }}</title>
+      <meta data-inertia="description" name="description" content="{{ props.seo.description }}" />
+      <link data-inertia="canonical" rel="canonical" href="{{ props.seo.canonical }}" />
+      @each(alternate in props.seo.alternates)
+        <link data-inertia="alternate-{{ alternate.hreflang }}" rel="alternate" hreflang="{{ alternate.hreflang }}" href="{{ alternate.href }}" />
+      @end
+    @else
+      <title data-inertia>{{ brandName }}</title>
+    @end
+
+    @if(marketing)
+      {{-- Paints the page background in the right scheme before any script or stylesheet loads. --}}
+      <style>
+        html.site-root { background: #ffffff; }
+        html.site-root[data-site-scheme='dark'] { background: #050d1c; color-scheme: dark; }
+        @media (prefers-color-scheme: dark) {
+          html.site-root[data-site-theme='system'] { background: #050d1c; color-scheme: dark; }
+        }
+      </style>
+    @end
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=JetBrains+Mono:wght@500&display=swap"
+    />
+
+    @vite(['inertia/app.ts'])
+    @inertiaHead()
+    @stack('dumper')
+  </head>
+
+  <body>
+    @inertia()
+  </body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{{ lang ?? 'en' }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>{{ title }}</title>
+  </head>
+  <body
+    style="margin:0;padding:0;background:#f7f8fc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#151515;"
+  >
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="background:#f7f8fc;padding:32px 16px;"
+    >
+      <tr>
+        <td align="center">
+          <table
+            role="presentation"
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            style="max-width:560px;background:#ffffff;border:1px solid #e5e7ec;border-radius:16px;"
+          >
+            <tr>
+              <td
+                style="padding:28px 32px 8px;font-size:18px;font-weight:800;letter-spacing:-0.02em;"
+              >
+                Soft<span style="color:#005dfb;">MLM</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:8px 32px 32px;font-size:15px;line-height:1.6;">
+                {{{ await $slots.main() }}}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

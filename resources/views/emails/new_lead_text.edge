@@ -1,0 +1,14 @@
+{{-- Plain text: no HTML context, so values are printed raw (not HTML-escaped). --}}
+{{{ headline }}} {{{ company }}} (submitted from {{{ source }}})
+
+@each(row in rows)
+{{{ row[0] }}}: {{{ row[1] }}}
+@end
+@each(row in acquisition)
+{{{ row[0] }}}: {{{ row[1] }}}
+@end
+@each(row in utm)
+UTM {{{ row[0].toLowerCase() }}}: {{{ row[1] }}}
+@end
+
+Open the lead: {{{ adminUrl }}}
