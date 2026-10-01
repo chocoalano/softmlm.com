@@ -59,7 +59,6 @@ const common: typeof en = {
       commandCenter: 'Command center',
       network: 'Visualisasi jaringan',
       integrations: 'Integrasi',
-      security: 'Keamanan',
     },
     rolesOverview: {
       title: 'Satu bisnis, banyak tim',
@@ -206,6 +205,34 @@ const common: typeof en = {
         stage: 'Sudah sampai tahap mana?',
         launch: 'Target peluncuran',
       },
+    },
+  },
+
+  securityConsultation: {
+    eyebrow: 'Hubungi kami',
+    title: 'Ceritakan kebutuhan keamanan organisasi Anda.',
+    text: 'Ceritakan hal yang penting bagi organisasi Anda. Tim kami akan menghubungi Anda untuk membahas akses, data, integrasi dan deployment.',
+    or: 'atau kirim permintaan lewat formulir',
+    expectations: [
+      'Diskusi tentang tim, data dan sistem Anda',
+      'Pertanyaan seputar kebutuhan, bukan naskah penjualan',
+      'Langkah berikutnya yang jelas setelah cakupan keamanannya dipahami',
+    ],
+    success: {
+      title: 'Terima kasih!',
+      text: 'Permintaan Anda sudah kami terima. Tim kami akan segera menghubungi Anda untuk membahas kebutuhan keamanannya.',
+      again: 'Kirim permintaan lain',
+    },
+    form: {
+      title: 'Ajukan Konsultasi Keamanan',
+      text: 'Selain data kontak, semua isian bersifat opsional.',
+      topics: 'Apa yang ingin Anda diskusikan?',
+      topicsHint: 'Pilih yang sesuai.',
+      message: 'Ada hal lain yang perlu kami ketahui?',
+      messagePlaceholder: 'Tim Anda, data yang terlibat, persyaratan yang sudah ada…',
+      credentials:
+        'Mohon jangan mengirim kredensial atau informasi keamanan yang sensitif lewat formulir ini.',
+      submit: 'Kirim permintaan',
     },
   },
 

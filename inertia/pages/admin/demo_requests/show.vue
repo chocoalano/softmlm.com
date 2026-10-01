@@ -104,6 +104,15 @@ const inquiryRows = computed(() => {
     ...(details?.existingSystem
       ? [{ label: 'Existing system', value: details.existingSystem }]
       : []),
+    /* the security consultation (/security) */
+    ...(details?.securityTopics?.length
+      ? [
+          {
+            label: 'Security topics',
+            value: listOf(props.options.securityTopics, details.securityTopics),
+          },
+        ]
+      : []),
   ]
 })
 

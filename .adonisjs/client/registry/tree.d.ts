@@ -16,6 +16,7 @@ export interface ApiDefinition {
     }
     howWeDoIt: typeof routes['marketing.how_we_do_it']
     integrations: typeof routes['marketing.integrations']
+    security: typeof routes['marketing.security']
     services: typeof routes['marketing.services'] & {
       socialMedia: typeof routes['marketing.services.social_media']
       seo: typeof routes['marketing.services.seo']

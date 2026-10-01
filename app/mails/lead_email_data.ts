@@ -2,6 +2,7 @@ import leadsConfig, {
   interestCategoryOf,
   isConsultationSource,
   isIntegrationSource,
+  isSecuritySource,
 } from '#config/leads'
 import type { InterestCategory } from '#config/leads'
 import type DemoRequest from '#models/demo_request'
@@ -29,7 +30,7 @@ const INQUIRY_NAMES: Record<InterestCategory, string> = {
  * discuss instead of the software questions. An integration consultation
  * lists the integration areas and whether an API or documentation exists;
  * the system name the visitor typed stays in the back office, like the
- * message.
+ * message. A security consultation lists the topics to discuss.
  */
 export function leadEmailData(lead: DemoRequest, acquisition: [string, string][] = []) {
   const consultation = isConsultationSource(lead.source) || Boolean(lead.serviceInterests?.length)
@@ -55,6 +56,11 @@ export function leadEmailData(lead: DemoRequest, acquisition: [string, string][]
     leadsConfig.apiDocumentationAnswers,
     lead.serviceDetails?.apiDocumentation ?? null
   )
+  const security = isSecuritySource(lead.source)
+  const securityTopics = (lead.serviceDetails?.securityTopics ?? [])
+    .map((value) => labelOf(leadsConfig.securityTopics, value))
+    .filter(Boolean) as string[]
+  const topic = integration ? 'integration' : security ? 'security' : INQUIRY_NAMES[category]
 
   const contact: [string, string][] = [
     ['Name', lead.fullName],
@@ -69,28 +75,32 @@ export function leadEmailData(lead: DemoRequest, acquisition: [string, string][]
         ['Integration areas', integrationNeeds.length ? integrationNeeds.join(', ') : '—'],
         ['API / documentation', apiDocumentation ?? '—'],
       ]
-    : consultation
+    : security
       ? [
           ...contact,
-          ['Interest', labelOf(leadsConfig.interestCategories, category) ?? '—'],
-          ['Services', services.length ? services.join(', ') : '—'],
-          ...(productStage ? [['Product stage', productStage] as [string, string]] : []),
-          ...(targetLaunch ? [['Target launch', targetLaunch] as [string, string]] : []),
+          ['Interest', 'Security & Access'],
+          ['Topics', securityTopics.length ? securityTopics.join(', ') : '—'],
         ]
-      : [
-          ...contact,
-          ['Company type', businessType || '—'],
-          ['Active members', activeMembers || '—'],
-          ['Modules', modules.length ? modules.join(', ') : '—'],
-        ]
+      : consultation
+        ? [
+            ...contact,
+            ['Interest', labelOf(leadsConfig.interestCategories, category) ?? '—'],
+            ['Services', services.length ? services.join(', ') : '—'],
+            ...(productStage ? [['Product stage', productStage] as [string, string]] : []),
+            ...(targetLaunch ? [['Target launch', targetLaunch] as [string, string]] : []),
+          ]
+        : [
+            ...contact,
+            ['Company type', businessType || '—'],
+            ['Active members', activeMembers || '—'],
+            ['Modules', modules.length ? modules.join(', ') : '—'],
+          ]
 
   return {
     acquisition,
     kind: consultation ? ('consultation' as const) : ('demo' as const),
-    inquiryName: integration ? 'integration' : INQUIRY_NAMES[category],
-    headline: consultation
-      ? `New ${integration ? 'integration' : INQUIRY_NAMES[category]} inquiry from`
-      : 'New demo request from',
+    inquiryName: topic,
+    headline: consultation ? `New ${topic} inquiry from` : 'New demo request from',
     rows,
     fullName: lead.fullName,
     firstName: lead.fullName.split(' ')[0],

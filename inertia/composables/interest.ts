@@ -13,6 +13,7 @@ const FEATURE_INTERESTS: Record<string, string> = {
   distributors: 'software',
   operations: 'software',
   integrations: 'integration',
+  security: 'security',
 }
 
 /** A visitor explicitly opened a feature (menu item or card). */

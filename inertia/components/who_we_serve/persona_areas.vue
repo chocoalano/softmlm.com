@@ -6,6 +6,7 @@ import { personaStructure } from '~/content/personas'
 import { useCopy, useI18n } from '~/i18n'
 import { personaTrackingPage, type PersonaKey } from '@shared/personas'
 import { INTEGRATIONS_PATH } from '@shared/integrations'
+import { SECURITY_PATH } from '@shared/security'
 import { exploreFeature } from '~/composables/interest'
 
 const props = defineProps<{ persona: PersonaKey }>()
@@ -20,7 +21,8 @@ const items = computed(() =>
       ...item,
       icon,
       href: href ? lp(href) : undefined,
-      integrations: href === INTEGRATIONS_PATH,
+      feature:
+        href === INTEGRATIONS_PATH ? 'integrations' : href === SECURITY_PATH ? 'security' : null,
     }
   })
 )
@@ -31,11 +33,12 @@ const related = computed(() =>
   }))
 )
 
-/** Opening the Integrations page from a role page is an explicit interest; reading the role page is not. */
-function onArea(item: { integrations: boolean }) {
-  if (item.integrations) {
-    exploreFeature('integrations', personaTrackingPage(props.persona), locale.value)
-  }
+/**
+ * Opening the Integrations or Security page from a role page is an explicit
+ * interest; reading the role page is not.
+ */
+function onArea(item: { feature: string | null }) {
+  if (item.feature) exploreFeature(item.feature, personaTrackingPage(props.persona), locale.value)
 }
 </script>
 

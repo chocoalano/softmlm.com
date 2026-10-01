@@ -1,5 +1,4 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import limiter from '@adonisjs/limiter/services/main'
 import marketingConfig from '#config/marketing'
 import trackingConfig from '#config/marketing_tracking'
 import MarketingTracker, { PAGE_PATH, SLUG, isWhatsappContext } from '#services/marketing_tracker'
@@ -22,8 +21,9 @@ export default class WhatsappRedirectController {
    * tracking off, WhatsApp opens the same way without a reference.
    *
    * Recording is capped per client address (marketing_tracking
-   * `whatsappRecordLimit`): past it, WhatsApp still opens, without a
-   * reference, so a script cannot fill the intents table.
+   * `whatsappRecordLimit`): past it, or when the limiter store is down,
+   * WhatsApp still opens, without a reference, so a script cannot fill the
+   * intents table and an outage never blocks the conversation.
    */
   async show(ctx: HttpContext) {
     const { params, request, response } = ctx
@@ -38,20 +38,21 @@ export default class WhatsappRedirectController {
     const slug = (value: unknown) => (typeof value === 'string' && SLUG.test(value) ? value : null)
 
     const visit = MarketingTracker.visit(ctx, path)
-    const { requests, window } = trackingConfig.whatsappRecordLimit
-    const intent = visit
-      ? await limiter
-          .use({ requests, duration: window })
-          .attempt(`whatsapp_record:${request.ip()}`, () =>
-            WhatsappIntents.record(visit, {
-              context,
-              page: path,
-              section: slug(qs.section),
-              locale,
-              theme: slug(qs.theme),
-              variant: slug(qs.variant),
-            })
-          )
+    const recordable =
+      visit !== null &&
+      (await MarketingTracker.underLimit(
+        `whatsapp_record:${request.ip()}`,
+        trackingConfig.whatsappRecordLimit
+      ).catch(() => false))
+    const intent = recordable
+      ? await WhatsappIntents.record(visit, {
+          context,
+          page: path,
+          section: slug(qs.section),
+          locale,
+          theme: slug(qs.theme),
+          variant: slug(qs.variant),
+        })
       : null
 
     const message = intent

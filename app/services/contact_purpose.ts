@@ -13,7 +13,8 @@ import { serviceLeadSource, services } from '#shared/services'
  *    rest are additional. One topic is the purpose. Several topics without
  *    a page to decide between them → "Multiple", with every topic listed.
  * 2. Otherwise the form's source: compensation page → compensation,
- *    pricing and estimator → pricing, how we do it → implementation, a
+ *    pricing and estimator → pricing, how we do it → implementation,
+ *    integrations → integration, security → security, a
  *    feature page → that feature (from the page it was sent on), anything
  *    else → software.
  * 3. Modules ticked and an estimate saying the current system will be
@@ -33,6 +34,7 @@ const SOURCE_PURPOSE: Partial<Record<string, Intent>> = {
   homepage_estimator: 'pricing',
   implementation_page: 'implementation',
   integration_page: 'integration',
+  security_page: 'security',
 }
 
 const MODULE_PURPOSE: Partial<Record<string, Intent>> = {

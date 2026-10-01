@@ -267,7 +267,8 @@ export default class MarketingJourney {
         })),
       ...leads
         .filter((lead) => lead.contactedAt)
-        .map((lead) => ({ at: lead.contactedAt!, text: `Lead #${lead.id} marked as contacted` })),
+        // no lead id: the marketing role reads journeys too
+        .map((lead) => ({ at: lead.contactedAt!, text: 'Lead marked as contacted by sales' })),
     ].sort((a, b) => a.at.toMillis() - b.at.toMillis())
     const plural = (count: number, word: string) => `${count} ${word}${count === 1 ? '' : 's'}`
 

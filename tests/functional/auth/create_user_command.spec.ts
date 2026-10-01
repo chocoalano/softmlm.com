@@ -40,10 +40,12 @@ test.group('Command | users:create', (group) => {
   })
 
   test('refuses an unknown role, a duplicate email and a short password', async ({ assert }) => {
-    ;(await run(['someone@mlmsoft.test', 'owner'])).assertFailed()
+    const unknownRole = await run(['someone@mlmsoft.test', 'owner'])
+    unknownRole.assertFailed()
 
     await User.create({ email: 'taken@mlmsoft.test', password: PASSWORD, role: 'user' })
-    ;(await run(['taken@mlmsoft.test', 'admin'])).assertFailed()
+    const duplicate = await run(['taken@mlmsoft.test', 'admin'])
+    duplicate.assertFailed()
     const existing = await User.findByOrFail('email', 'taken@mlmsoft.test')
     assert.equal(existing.role, 'user')
 

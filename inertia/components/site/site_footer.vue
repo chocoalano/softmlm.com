@@ -8,6 +8,7 @@ import { WHO_WE_SERVE_PATH } from '@shared/personas'
 import { FEATURES_PATH, featurePath, findFeature } from '@shared/features'
 import { HOW_WE_DO_IT_PATH } from '@shared/implementation'
 import { INTEGRATIONS_PATH } from '@shared/integrations'
+import { SECURITY_PATH } from '@shared/security'
 import { SERVICES_PATH, servicePath, services } from '@shared/services'
 import { useCopy, useI18n } from '~/i18n'
 import { useLeadTarget } from '~/composables/lead_target'
@@ -64,7 +65,7 @@ const columns = computed(() => {
       links: [
         { label: links.whoWeServe, href: lp(WHO_WE_SERVE_PATH) },
         { label: links.implementation, href: lp(HOW_WE_DO_IT_PATH) },
-        { label: links.security, href: lp('/#security') },
+        { label: links.security, href: lp(SECURITY_PATH) },
         { label: links.pricing, href: lp('/pricing') },
         { label: links.faq, href: lp('/#faq') },
         { label: leadTarget.label.value, href: leadTarget.href },

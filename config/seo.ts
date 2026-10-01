@@ -4,6 +4,7 @@ import { personaPath, personas, type PersonaKey } from '#shared/personas'
 import { FEATURES_PATH, featurePath, features, type FeatureKey } from '#shared/features'
 import { HOW_WE_DO_IT_PATH } from '#shared/implementation'
 import { INTEGRATIONS_PATH } from '#shared/integrations'
+import { SECURITY_PATH } from '#shared/security'
 import { SERVICES_PATH, servicePath, services, type ServiceKey } from '#shared/services'
 import { DEFAULT_LOCALE, LOCALES, localizePath, type Locale } from '#shared/locales'
 
@@ -228,6 +229,17 @@ export const marketingPages = {
     description: {
       en: 'How MLM software fits with the payment, logistics, finance, messaging and business systems you already use, mapped during integration discovery.',
       id: 'Cara sistem MLM bekerja bersama payment, logistik, finance, messaging dan sistem bisnis yang sudah Anda gunakan, dipetakan saat discovery integrasi.',
+    },
+  },
+  security: {
+    path: SECURITY_PATH,
+    title: {
+      en: 'Security for MLM Software Implementations',
+      id: 'Keamanan dalam Implementasi Software MLM',
+    },
+    description: {
+      en: 'How access, data, integrations, audit history and infrastructure requirements are clarified before an MLM software implementation, and what we verify today.',
+      id: 'Cara kebutuhan akses, data, integrasi, riwayat audit dan infrastruktur diperjelas sebelum implementasi software MLM, serta apa yang sudah kami verifikasi.',
     },
   },
   services: {

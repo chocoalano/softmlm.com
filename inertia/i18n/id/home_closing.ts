@@ -263,45 +263,33 @@ const homeClosing: typeof en = {
 
   security: {
     eyebrow: 'Keamanan & kepercayaan',
-    title: 'Pertanyaan keamanan, terjawab sebelum Anda memutuskan.',
-    lead: 'Data member dan uang distributor Anda layak dilindungi dengan serius. Dalam sesi teknis, kami membahas setiap topik ini: apa yang sudah ada, apa yang direncanakan dan bagaimana penerapannya untuk bisnis Anda.',
-    whatsapp: 'Diskusikan keamanan dengan tim kami',
+    title: 'Kebutuhan keamanan dibahas sebelum go-live.',
+    lead: 'Akses, data, integrasi dan infrastruktur masing-masing membutuhkan kontrol yang berbeda. Kami menjadikan pertanyaan-pertanyaan tersebut bagian dari perencanaan implementasi.',
+    cta: 'Pelajari Keamanan',
     items: [
       {
-        title: 'Enkripsi',
-        text: 'Bagaimana data dilindungi saat dikirim dan saat disimpan.',
+        title: 'Akses & peran',
+        text: 'Siapa yang membutuhkan akses, dan apa yang boleh dilihat atau diubah setiap peran.',
       },
       {
-        title: 'Autentikasi',
-        text: 'Cara staf dan member login, serta pengaman apa yang berlaku.',
+        title: 'Perlindungan data',
+        text: 'Data mana yang sensitif, dan siapa yang boleh melihat atau mengekspornya.',
       },
       {
-        title: 'Akses berbasis peran',
-        text: 'Siapa boleh melihat dan mengubah apa, per tim.',
+        title: 'Integrasi',
+        text: 'Cara sistem yang terhubung saling mengautentikasi, dan data apa yang diterimanya.',
       },
       {
-        title: 'Audit log',
-        text: 'Bagaimana perubahan pada member, aturan dan uang dicatat.',
+        title: 'Audit & jejak perubahan',
+        text: 'Perubahan mana yang perlu riwayat siapa mengubah apa, dan kapan.',
       },
       {
         title: 'Infrastruktur',
-        text: 'Di mana sistem dijalankan dan bagaimana environment dipisahkan.',
+        text: 'Di mana sistem berjalan, serta bagaimana environment dipisahkan dan dipantau.',
       },
       {
         title: 'Backup & pemulihan',
-        text: 'Seberapa sering data di-backup dan bagaimana proses restore berjalan.',
-      },
-      {
-        title: 'Isolasi data',
-        text: 'Bagaimana data bisnis Anda dipisahkan dari data pihak lain.',
-      },
-      {
-        title: 'Keamanan API',
-        text: 'Bagaimana integrasi diautentikasi dan penyalahgunaan dibatasi.',
-      },
-      {
-        title: 'Monitoring',
-        text: 'Bagaimana masalah terdeteksi dan siapa yang menerima notifikasi.',
+        text: 'Ekspektasi pemulihan, disepakati dan diuji sebelum production.',
       },
     ],
   },

@@ -29,6 +29,7 @@ declare module '@adonisjs/inertia/types' {
     'integrations': ExtractProps<(typeof import('../../inertia/pages/integrations.vue'))['default']>
     'marketing_not_found': ExtractProps<(typeof import('../../inertia/pages/marketing_not_found.vue'))['default']>
     'pricing': ExtractProps<(typeof import('../../inertia/pages/pricing.vue'))['default']>
+    'security': ExtractProps<(typeof import('../../inertia/pages/security.vue'))['default']>
     'services/index': ExtractProps<(typeof import('../../inertia/pages/services/index.vue'))['default']>
     'services/service': ExtractProps<(typeof import('../../inertia/pages/services/service.vue'))['default']>
     'who_we_serve/index': ExtractProps<(typeof import('../../inertia/pages/who_we_serve/index.vue'))['default']>

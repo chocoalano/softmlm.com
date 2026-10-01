@@ -78,6 +78,12 @@ const routes = {
     tokens: [{"old":"/:locale/integrations","type":1,"val":"locale","end":""},{"old":"/:locale/integrations","type":0,"val":"integrations","end":""}],
     types: placeholder as Registry['marketing.integrations']['types'],
   },
+  'marketing.security': {
+    methods: ["GET","HEAD"],
+    pattern: '/:locale/security',
+    tokens: [{"old":"/:locale/security","type":1,"val":"locale","end":""},{"old":"/:locale/security","type":0,"val":"security","end":""}],
+    types: placeholder as Registry['marketing.security']['types'],
+  },
   'marketing.services': {
     methods: ["GET","HEAD"],
     pattern: '/:locale/services',

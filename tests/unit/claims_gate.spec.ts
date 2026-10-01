@@ -303,6 +303,63 @@ test.group('Claims gate', () => {
     }
   })
 
+  test('flags security promises, in both languages', ({ assert }) => {
+    for (const claim of [
+      'Enterprise-grade security for your business.',
+      'Bank-grade protection for every member.',
+      'Military-grade security, built in.',
+      'Your data is fully secure.',
+      'An unhackable platform.',
+      'Fully encrypted from end to end.',
+      'All member data is encrypted at rest.',
+      'mlmsoft is SOC 2 certified.',
+      'ISO 27001 certified hosting.',
+      'GDPR compliant by design.',
+      'Guaranteed uptime for your network.',
+      'Zero data loss, always.',
+      'A disaster-proof infrastructure.',
+      'Bulletproof security for your payouts.',
+      'Our platform includes SSO and 2FA.',
+      'Disaster recovery is included.',
+      // Bahasa Indonesia
+      'Keamanan kelas enterprise untuk bisnis Anda.',
+      'Keamanan setara bank untuk setiap member.',
+      'Keamanan tingkat militer.',
+      'Data Anda sepenuhnya aman.',
+      'Sistem yang tidak bisa diretas.',
+      'Data terenkripsi sepenuhnya.',
+      'Data member terenkripsi saat disimpan.',
+      'mlmsoft bersertifikat ISO 27001.',
+      'Platform yang patuh GDPR.',
+      'Uptime dijamin untuk jaringan Anda.',
+      'Tanpa kehilangan data.',
+      'Infrastruktur tahan bencana.',
+      'Sistem kami sudah mendukung SSO.',
+    ]) {
+      assert.isNotEmpty(findClaimViolations(claim), claim)
+    }
+  })
+
+  test('allows security discovery wording, in both languages', ({ assert }) => {
+    for (const copy of [
+      'Security requirements should be clear before implementation.',
+      'SSO requirements can be assessed during technical discovery.',
+      'It should not be assumed to be available until the selected identity provider and implementation scope are confirmed.',
+      'Transport and storage controls depend on the final deployment architecture.',
+      'Backup and recovery requirements are defined as part of the production infrastructure plan.',
+      'mlmsoft does not hold a security certification such as ISO 27001 or SOC 2, and we do not claim one.',
+      'If your organisation has regulatory or compliance requirements, include them during discovery.',
+      'Infrastructure controls are confirmed as part of the deployment architecture.',
+      'Kebutuhan keamanan perlu jelas sejak awal implementasi.',
+      'Kebutuhan SSO dapat dinilai saat technical discovery.',
+      'mlmsoft tidak memiliki sertifikasi keamanan seperti ISO 27001 atau SOC 2, dan kami tidak mengklaimnya.',
+      'Jika organisasi Anda memiliki persyaratan regulasi atau kepatuhan, sertakan saat discovery.',
+      'Persyaratan backup dan pemulihan ditetapkan sebagai bagian dari rencana infrastruktur production.',
+    ]) {
+      assert.isEmpty(findClaimViolations(copy), copy)
+    }
+  })
+
   test('the marketing funnel passes the evidence gate', async ({ assert }) => {
     const offenders: string[] = []
     for (const file of await auditedFiles()) {

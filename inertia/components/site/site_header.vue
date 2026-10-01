@@ -81,7 +81,6 @@ const featureLinks = computed(() => {
 const platformLinks = computed(() => [
   { label: t.value.nav.platformLinks.commandCenter, href: lp('/#command-center') },
   { label: t.value.nav.platformLinks.network, href: lp('/#network') },
-  { label: t.value.nav.platformLinks.security, href: lp('/#security') },
 ])
 
 /**
@@ -449,7 +448,7 @@ onBeforeUnmount(() => {
           </div>
         </details>
         <a
-          v-for="item in [...linksAfter, ...platformLinks.slice(2)]"
+          v-for="item in linksAfter"
           :key="item.href"
           :href="item.href"
           class="drawer__link"

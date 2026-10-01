@@ -19,22 +19,13 @@ import ThemeToggle from '~/components/theme_toggle.vue'
         <ThemeToggle />
       </div>
 
-      <p class="auth__quote">Auth, kept intentionally minimal so you can build it your way.</p>
+      <p class="auth__quote">Back office for leads, conversations and marketing insight.</p>
 
       <div>
-        <div class="pitch__t">Looking for production-ready auth?</div>
+        <div class="pitch__t">Staff accounts only</div>
         <p class="pitch__p">
-          Check out Feature packs, production-ready full-stack components from the creator of
-          AdonisJS.
+          Accounts are created by an administrator. Ask yours if you need access.
         </p>
-        <a
-          class="il pitch__a"
-          href="https://plus.adonisjs.com/feature-packs"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Explore Feature packs →
-        </a>
       </div>
     </aside>
   </div>

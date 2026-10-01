@@ -1,8 +1,8 @@
 <script setup lang="ts">
 /**
  * Security decisions every integration needs. Methodology, not a
- * description of controls in place; the link goes to the security topics
- * section on the homepage (there is no separate security page yet).
+ * description of controls in place; the link opens the Security page (an
+ * explicit security interest).
  */
 import { computed } from 'vue'
 import {
@@ -17,10 +17,17 @@ import {
   SlidersHorizontal,
 } from 'lucide-vue-next'
 import { vReveal } from '~/composables/reveal'
+import { exploreFeature } from '~/composables/interest'
+import { INTEGRATIONS_TRACKING_PAGE } from '@shared/integrations'
+import { SECURITY_PATH } from '@shared/security'
 import { useCopy, useI18n } from '~/i18n'
 
 const t = useCopy('integrations')
-const { lp } = useI18n()
+const { lp, locale } = useI18n()
+
+function openSecurity() {
+  exploreFeature('security', INTEGRATIONS_TRACKING_PAGE, locale.value)
+}
 const icons = [
   ShieldCheck,
   KeyRound,
@@ -49,7 +56,7 @@ const items = computed(() => t.value.security.items.map((item, i) => ({ ...item,
           <span>{{ item.text }}</span>
         </li>
       </ul>
-      <a v-reveal :href="lp('/#security')" class="sm-link nsec__link"
+      <a v-reveal :href="lp(SECURITY_PATH)" class="sm-link nsec__link" @click="openSecurity"
         >{{ t.security.link }} <ArrowRight :size="16"
       /></a>
     </div>

@@ -109,6 +109,7 @@ const implementation: typeof en = {
           'Laporan',
           'Integrasi',
         ],
+        securityLink: 'Cara kebutuhan keamanan diperjelas',
         map: {
           label: 'Contoh peta keputusan',
           trigger: 'Order lunas',

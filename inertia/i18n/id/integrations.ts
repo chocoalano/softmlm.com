@@ -374,7 +374,7 @@ const integrations: typeof en = {
       { title: 'Retry', text: 'Mencoba ulang tanpa menggandakan pembayaran atau order.' },
       { title: 'Auditabilitas', text: 'Bisa menunjukkan apa yang terjadi, dan kapan.' },
     ],
-    link: 'Lihat topik keamanan yang kami bahas',
+    link: 'Cara kami membahas keamanan',
   },
 
   failure: {

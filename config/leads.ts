@@ -224,6 +224,22 @@ const leadsConfig = {
     { value: 'unsure', label: 'Not sure yet' },
   ],
 
+  /**
+   * "What would you like to discuss?" on the security consultation
+   * (/security). Broad topics only: the form never asks for credentials,
+   * network details or vulnerability descriptions.
+   */
+  securityTopics: [
+    { value: 'access_permissions', label: 'Access & permissions' },
+    { value: 'data_protection', label: 'Data protection' },
+    { value: 'integrations', label: 'Integrations' },
+    { value: 'audit_traceability', label: 'Audit & traceability' },
+    { value: 'infrastructure', label: 'Infrastructure' },
+    { value: 'backup_recovery', label: 'Backup & recovery' },
+    { value: 'security_requirements', label: 'Security requirements' },
+    { value: 'other', label: 'Other' },
+  ],
+
   /** "Is there an API or documentation for the system?" on the integration consultation. */
   apiDocumentationAnswers: [
     { value: 'yes', label: 'Yes' },
@@ -285,11 +301,13 @@ export type InterestCategory = Option<typeof leadsConfig.interestCategories>
 export type ProductStage = Option<typeof leadsConfig.productStages>
 export type TargetLaunch = Option<typeof leadsConfig.targetLaunches>
 export type ApiDocumentationAnswer = Option<typeof leadsConfig.apiDocumentationAnswers>
+export type SecurityTopic = Option<typeof leadsConfig.securityTopics>
 
 /**
- * Optional answers from a service page or the integration consultation,
- * stored in `service_details`. Never credentials: the form asks only
- * whether an API or documentation exists.
+ * Optional answers from a service page, the integration consultation or
+ * the security consultation, stored in `service_details`. Never
+ * credentials: the forms ask only whether an API or documentation exists
+ * and which topics to discuss.
  */
 export type ServiceDetails = {
   productStage?: ProductStage
@@ -298,6 +316,7 @@ export type ServiceDetails = {
   apiDocumentation?: ApiDocumentationAnswer
   /** The system's name or a short description, typed by the visitor. */
   existingSystem?: string
+  securityTopics?: SecurityTopic[]
 }
 
 export const values = <T extends readonly { value: string }[]>(options: T) =>
@@ -319,6 +338,7 @@ export type PublicLeadOptions = {
   productStages: LeadOption<ProductStage>[]
   targetLaunches: LeadOption<TargetLaunch>[]
   apiDocumentationAnswers: LeadOption<ApiDocumentationAnswer>[]
+  securityTopics: LeadOption<SecurityTopic>[]
 }
 
 /**
@@ -337,6 +357,7 @@ export const publicLeadOptions: PublicLeadOptions = {
   productStages: [...leadsConfig.productStages],
   targetLaunches: [...leadsConfig.targetLaunches],
   apiDocumentationAnswers: [...leadsConfig.apiDocumentationAnswers],
+  securityTopics: [...leadsConfig.securityTopics],
 }
 
 type Text = { label: string; description?: string }
@@ -357,6 +378,7 @@ const indonesianLabels: {
   productStages: Record<ProductStage, string>
   targetLaunches: Record<TargetLaunch, string>
   apiDocumentationAnswers: Record<ApiDocumentationAnswer, string>
+  securityTopics: Record<SecurityTopic, string>
 } = {
   businessTypes: {
     mlm: {
@@ -469,6 +491,16 @@ const indonesianLabels: {
     no: 'Tidak',
     not_sure: 'Belum tahu',
   },
+  securityTopics: {
+    access_permissions: 'Akses & hak akses',
+    data_protection: 'Perlindungan data',
+    integrations: 'Integrasi',
+    audit_traceability: 'Audit & jejak perubahan',
+    infrastructure: 'Infrastruktur',
+    backup_recovery: 'Backup & pemulihan',
+    security_requirements: 'Persyaratan keamanan',
+    other: 'Lainnya',
+  },
 }
 
 const relabel = <V extends string, T extends LeadOption<V>>(
@@ -506,6 +538,7 @@ export function publicLeadOptionsFor(locale: Locale): PublicLeadOptions {
       publicLeadOptions.apiDocumentationAnswers,
       labels.apiDocumentationAnswers
     ),
+    securityTopics: relabel(publicLeadOptions.securityTopics, labels.securityTopics),
   }
 }
 
@@ -560,15 +593,22 @@ export const consultationSources = [
  */
 /**
  * Consultations without service topics: the integration consultation on
- * /integrations. Its purpose comes from the source (Integration).
+ * /integrations and the security consultation on /security. Their purpose
+ * comes from the source (Integration, Security & Access).
  */
 export const integrationSources = ['integration_page'] as const satisfies readonly LeadSource[]
+export const securitySources = ['security_page'] as const satisfies readonly LeadSource[]
 
 export function isConsultationSource(source: string) {
   return (
     (consultationSources as readonly string[]).includes(source) ||
-    (integrationSources as readonly string[]).includes(source)
+    (integrationSources as readonly string[]).includes(source) ||
+    (securitySources as readonly string[]).includes(source)
   )
+}
+
+export function isSecuritySource(source: string) {
+  return (securitySources as readonly string[]).includes(source)
 }
 
 export function isIntegrationSource(source: string) {

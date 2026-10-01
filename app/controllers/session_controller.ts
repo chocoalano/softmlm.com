@@ -11,6 +11,8 @@ const INVALID = 'Invalid email or password.'
 
 export default class SessionController {
   async create({ inertia }: HttpContext) {
+    // whoever was signed in before, their encrypted page history is unreadable now
+    inertia.clearHistory()
     return inertia.render('auth/login', { signupEnabled: accountsConfig.publicSignup })
   }
 

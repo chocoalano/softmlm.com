@@ -21,6 +21,7 @@ import { WHO_WE_SERVE_PATH, personaPath, personas } from '#shared/personas'
 import { FEATURES_PATH, featurePath, features } from '#shared/features'
 import { HOW_WE_DO_IT_PATH } from '#shared/implementation'
 import { INTEGRATIONS_PATH } from '#shared/integrations'
+import { SECURITY_PATH } from '#shared/security'
 import { SERVICES_PATH, servicePath, services } from '#shared/services'
 import { DEFAULT_LOCALE, LOCALES, LOCALE_COOKIE, isLocale, type Locale } from '#shared/locales'
 import router from '@adonisjs/core/services/router'
@@ -52,6 +53,7 @@ const legacyPaths = [
   HOW_WE_DO_IT_PATH,
   SERVICES_PATH,
   INTEGRATIONS_PATH,
+  SECURITY_PATH,
 ]
 for (const path of legacyPaths) {
   router.get(path, ({ response }) => response.redirect().withQs().status(301).toPath(`/en${path}`))
@@ -118,6 +120,12 @@ router
         inertia.render('integrations', pageProps('integrations', params))
       )
       .as('integrations')
+
+    router
+      .get(SECURITY_PATH, ({ params, inertia }) =>
+        inertia.render('security', pageProps('security', params))
+      )
+      .as('security')
 
     router
       .get(SERVICES_PATH, ({ params, inertia }) =>

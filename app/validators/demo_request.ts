@@ -86,6 +86,8 @@ export const demoRequestValidator = vine.create({
       integrationNeeds: optionList(leadsConfig.integrationNeeds),
       apiDocumentation: vine.enum(values(leadsConfig.apiDocumentationAnswers)).optional(),
       existingSystem: vine.string().trim().maxLength(120).transform(collapseWhitespace).optional(),
+      /** The security consultation: broad topics only, never credentials or findings. */
+      securityTopics: optionList(leadsConfig.securityTopics),
     })
     .optional(),
   website: vine.string().optional(),

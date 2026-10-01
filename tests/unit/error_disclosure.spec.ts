@@ -19,9 +19,7 @@ test.group('Error disclosure', () => {
   })
 
   for (const accept of ['application/json', 'application/vnd.api+json', 'text/html']) {
-    test(`outside debug mode a server error hides its message (${accept})`, async ({
-      assert,
-    }) => {
+    test(`outside debug mode a server error hides its message (${accept})`, async ({ assert }) => {
       const ctx = await testUtils.createHttpContext()
       ctx.request.request.headers.accept = accept
       const failure = new Error('insert into secret_table - SQLITE_ERROR at /srv/app/x.ts:12')

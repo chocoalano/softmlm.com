@@ -108,6 +108,7 @@ export default {
           'Reports',
           'Integrations',
         ],
+        securityLink: 'How security requirements are clarified',
         map: {
           label: 'Example of a decision map',
           trigger: 'Order paid',

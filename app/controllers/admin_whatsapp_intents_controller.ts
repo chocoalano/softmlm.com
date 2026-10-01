@@ -93,6 +93,8 @@ export default class AdminWhatsappIntentsController {
     return inertia.render('admin/marketing/whatsapp_intent', {
       intent: {
         ...WhatsappIntents.summary(intent),
+        // which lead it is stays with the roles that can open leads
+        linkedLeadId: canManageLeads ? intent.demoRequestId : null,
         context: intent.context,
         page: intent.page,
         section: intent.section,

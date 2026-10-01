@@ -381,7 +381,7 @@ const integrations = {
       { title: 'Retry', text: 'Trying again without duplicating payments or orders.' },
       { title: 'Auditability', text: 'Being able to show what happened, and when.' },
     ] satisfies Item[],
-    link: 'See the security topics we review',
+    link: 'How we approach security',
   },
 
   failure: {

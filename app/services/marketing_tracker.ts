@@ -15,6 +15,7 @@ import { INTENTS, INTERNAL_REFERRER, type Intent, type TrackingEvent } from '#sh
 import { services } from '#shared/services'
 import { features } from '#shared/features'
 import { INTEGRATIONS_PATH } from '#shared/integrations'
+import { SECURITY_PATH } from '#shared/security'
 import type DemoRequest from '#models/demo_request'
 import type { Attribution } from '#middleware/capture_attribution_middleware'
 import { contactPurposeOf, leadFormOf } from '#services/contact_purpose'
@@ -75,6 +76,7 @@ export const WHATSAPP_INTENTS: Record<WhatsappContext, Intent | null> = {
   implementation_general: 'implementation',
   migration: 'migration',
   integration_discovery: 'integration',
+  security_review: 'security',
   compensation_validation: 'compensation',
   services_overview: null,
   service_social_media: 'social_media',
@@ -382,18 +384,30 @@ export default class MarketingTracker {
   /**
    * Whether this page view may be recorded: under the per-address caps on
    * page views and on new visitors (marketing_tracking `pageViewLimits`).
+   * When the limiter store is unavailable the view is simply not recorded:
+   * tracking never fails a page.
    */
   static async pageViewAllowed(ctx: HttpContext, visit: Visit) {
     const ip = ctx.request.ip()
     const { views, newVisitors } = trackingConfig.pageViewLimits
-    const counted = (key: string, limit: { requests: number; window: string }) =>
-      limiter
-        .use({ requests: limit.requests, duration: limit.window })
-        .attempt(key, () => true)
-        .then((ok) => ok === true)
+    try {
+      if (!(await MarketingTracker.underLimit(`track_views:${ip}`, views))) return false
+      return (
+        !visit.newVisitor ||
+        (await MarketingTracker.underLimit(`track_new_visitors:${ip}`, newVisitors))
+      )
+    } catch (error) {
+      logger.error({ err: error }, 'tracking rate limit unavailable')
+      return false
+    }
+  }
 
-    if (!(await counted(`track_views:${ip}`, views))) return false
-    return !visit.newVisitor || counted(`track_new_visitors:${ip}`, newVisitors)
+  /** Counts one request against `key`; false once the limit is reached. */
+  static async underLimit(key: string, limit: { requests: number; window: string }) {
+    const ok = await limiter
+      .use({ requests: limit.requests, duration: limit.window })
+      .attempt(key, () => true)
+    return ok === true
   }
 
   /** Resolves once every queued tracking write has finished. */
@@ -419,6 +433,7 @@ export default class MarketingTracker {
     if (rest.startsWith('/how-we-do-it')) return 'implementation'
     if (rest.startsWith('/who-we-serve')) return 'software'
     if (rest === INTEGRATIONS_PATH) return 'integration'
+    if (rest === SECURITY_PATH) return 'security'
     const service = services.find((item) => rest === `/services/${item.slug}`)
     if (service) return service.key
     const feature = features.find((item) => rest === `/features/${item.slug}`)

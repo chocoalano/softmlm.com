@@ -40,6 +40,7 @@ export default class DemoRequestConfirmation extends BaseMail {
       ...labelled(this.lead.serviceInterests, options.serviceInterests),
       ...labelled(this.lead.selectedModulesSnapshot, options.modules),
       ...labelled(this.lead.serviceDetails?.integrationNeeds ?? null, options.integrationNeeds),
+      ...labelled(this.lead.serviceDetails?.securityTopics ?? null, options.securityTopics),
     ].join(', ')
 
     const data = {

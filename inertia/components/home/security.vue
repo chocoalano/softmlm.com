@@ -1,60 +1,52 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import {
+  ArrowRight,
+  BookCheck,
+  Cable,
   DatabaseBackup,
-  Fingerprint,
-  KeyRound,
-  Layers,
-  Lock,
-  Radar,
-  ScrollText,
+  Database,
   ServerCog,
-  ShieldCheck,
   UserCog,
 } from 'lucide-vue-next'
 import { vReveal } from '~/composables/reveal'
-import MarketingWhatsappCta from '~/components/site/marketing_whatsapp_cta.vue'
-import { useCopy } from '~/i18n'
+import { exploreFeature } from '~/composables/interest'
+import { SECURITY_PATH } from '@shared/security'
+import { useCopy, useI18n } from '~/i18n'
 
 const t = useCopy('homeClosing')
+const { lp, locale } = useI18n()
 
 /**
- * Topics walked through in a technical session, not a list of controls
- * that are in place today.
+ * Topics discussed during implementation planning, not a list of controls
+ * that are in place today. The button opens the Security page (an explicit
+ * security interest).
  */
-const icons = [
-  Lock,
-  Fingerprint,
-  UserCog,
-  ScrollText,
-  ServerCog,
-  DatabaseBackup,
-  Layers,
-  KeyRound,
-  Radar,
-]
+const icons = [UserCog, Database, Cable, BookCheck, ServerCog, DatabaseBackup]
 const topics = computed(() =>
   t.value.security.items.map((item, i) => ({ ...item, icon: icons[i] }))
 )
+
+function openSecurity() {
+  exploreFeature('security', 'homepage', locale.value)
+}
 </script>
 
 <template>
   <section id="security" class="sm-section sc">
     <div class="sm-container sc__grid">
       <div class="sc__side">
-        <span v-reveal class="sm-icon-tile sc__shield"><ShieldCheck :size="26" /></span>
         <span v-reveal="40" class="sm-eyebrow">{{ t.security.eyebrow }}</span>
         <h2 v-reveal="80" class="sm-h2">{{ t.security.title }}</h2>
         <p v-reveal="120" class="sm-lead">{{ t.security.lead }}</p>
-        <div v-reveal="160">
-          <MarketingWhatsappCta
-            page="homepage"
-            section="security"
-            variant="contextual"
-            appearance="dark"
-            :label="t.security.whatsapp"
-          />
-        </div>
+        <a
+          v-reveal="160"
+          :href="lp(SECURITY_PATH)"
+          class="sm-btn sm-btn--dark"
+          @click="openSecurity"
+        >
+          {{ t.security.cta }} <ArrowRight :size="18" class="sm-btn__arrow" />
+        </a>
       </div>
 
       <dl class="sc__list">
@@ -82,11 +74,6 @@ const topics = computed(() =>
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-}
-.sc__shield {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
 }
 .sc__list {
   display: grid;

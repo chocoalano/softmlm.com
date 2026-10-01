@@ -33,6 +33,7 @@ import {
 } from '@shared/implementation'
 import { FEATURES_PATH } from '@shared/features'
 import { INTEGRATIONS_PATH } from '@shared/integrations'
+import { SECURITY_PATH } from '@shared/security'
 import { exploreFeature } from '~/composables/interest'
 import { vReveal } from '~/composables/reveal'
 import { useCopy, useI18n } from '~/i18n'
@@ -43,6 +44,11 @@ const { lp, locale } = useI18n()
 /** Opening the Integrations page from the Integrate phase is an explicit interest. */
 function exploreIntegrations() {
   exploreFeature('integrations', HOW_WE_DO_IT_TRACKING_PAGE, locale.value)
+}
+
+/** Likewise the Security page, from the Blueprint phase (roles, data and approvals). */
+function exploreSecurity() {
+  exploreFeature('security', HOW_WE_DO_IT_TRACKING_PAGE, locale.value)
 }
 const items = computed(() => t.value.phases.items)
 
@@ -153,6 +159,9 @@ onBeforeUnmount(() => observer?.disconnect())
                   <ul class="iph__tags">
                     <li v-for="point in items.blueprint.points" :key="point">{{ point }}</li>
                   </ul>
+                  <a :href="lp(SECURITY_PATH)" class="sm-link" @click="exploreSecurity"
+                    >{{ items.blueprint.securityLink }} <ArrowRight :size="16"
+                  /></a>
                 </div>
                 <figure class="dmap" :aria-label="items.blueprint.map.label">
                   <figcaption class="iph__label">{{ items.blueprint.map.label }}</figcaption>

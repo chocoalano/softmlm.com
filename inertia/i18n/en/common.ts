@@ -61,7 +61,6 @@ export default {
       commandCenter: 'Command center',
       network: 'Network visualization',
       integrations: 'Integrations',
-      security: 'Security',
     },
     rolesOverview: {
       title: 'One business, different teams',
@@ -246,6 +245,33 @@ export default {
       message: 'Anything else we should know?',
       messagePlaceholder: 'The workflow, what goes wrong today, who maintains the system…',
       credentials: 'Please do not send passwords, API keys or other credentials through this form.',
+      submit: 'Send request',
+    },
+  },
+
+  securityConsultation: {
+    eyebrow: 'Talk to us',
+    title: 'Tell us what your security requirements are.',
+    text: 'Share what matters to your organisation. The team will get back to you to go through access, data, integrations and deployment.',
+    or: 'or send a request with the form',
+    expectations: [
+      'A conversation about your teams, your data and your systems',
+      'Questions about requirements, not a sales script',
+      'A clear next step once the security scope is understood',
+    ],
+    success: {
+      title: 'Thank you!',
+      text: 'Your request is in. Our team will reach out shortly to discuss your security requirements.',
+      again: 'Send another request',
+    },
+    form: {
+      title: 'Request a Security Consultation',
+      text: 'Everything except your contact details is optional.',
+      topics: 'What would you like to discuss?',
+      topicsHint: 'Choose any that apply.',
+      message: 'Anything else we should know?',
+      messagePlaceholder: 'Your teams, the data involved, requirements you already have…',
+      credentials: 'Do not send credentials or sensitive security information through this form.',
       submit: 'Send request',
     },
   },

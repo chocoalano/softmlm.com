@@ -16,6 +16,7 @@ export type ScannedRoutes = {
     'marketing.who_we_serve.distributors': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.how_we_do_it': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.integrations': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.security': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.social_media': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.seo': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -64,6 +65,7 @@ export type ScannedRoutes = {
     'marketing.who_we_serve.distributors': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.how_we_do_it': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.integrations': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.security': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.social_media': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.seo': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -101,6 +103,7 @@ export type ScannedRoutes = {
     'marketing.who_we_serve.distributors': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.how_we_do_it': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.integrations': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.security': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.social_media': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.seo': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }

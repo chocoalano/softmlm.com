@@ -27,6 +27,7 @@ import type {
   PricingEstimateSnapshot,
   ProductStage,
   PublicLeadOptions,
+  SecurityTopic,
   TargetLaunch,
 } from '#config/leads'
 
@@ -38,6 +39,8 @@ import type {
  * a short optional product block. `mode="integration"` (/integrations): an
  * integration consultation with the areas to connect, whether an API or
  * documentation exists, and the system's name; never credentials.
+ * `mode="security"` (/security): a security consultation with the topics to
+ * discuss; never credentials or security details.
  */
 const props = withDefaults(
   defineProps<{
@@ -47,7 +50,7 @@ const props = withDefaults(
     text?: string
     context?: WhatsappContext
     page?: string
-    mode?: 'demo' | 'consultation' | 'integration'
+    mode?: 'demo' | 'consultation' | 'integration' | 'security'
     interests?: ServiceInterest[]
     productQuestions?: boolean
   }>(),
@@ -66,16 +69,15 @@ const props = withDefaults(
 const t = useCopy('common')
 const { locale } = useI18n()
 const integration = computed(() => props.mode === 'integration')
-/** Both the services and the integration consultations ask no software questions. */
+const security = computed(() => props.mode === 'security')
+/** The services, integration and security consultations ask no software questions. */
 const consultation = computed(() => props.mode !== 'demo')
 /** The copy of this form's mode; field labels are shared. */
-const copy = computed(() =>
-  integration.value
-    ? t.value.integrationConsultation
-    : consultation.value
-      ? t.value.consultation
-      : t.value.demo
-)
+const copy = computed(() => {
+  if (integration.value) return t.value.integrationConsultation
+  if (security.value) return t.value.securityConsultation
+  return consultation.value ? t.value.consultation : t.value.demo
+})
 const formId = computed(() => (consultation.value ? 'consultation' : 'demo'))
 /** The areas a visitor can tick; "not sure" is simply ticking nothing. */
 const integrationNeedOptions = computed(() =>
@@ -99,6 +101,7 @@ const form = useForm({
   integrationNeeds: [] as IntegrationNeed[],
   apiDocumentation: '' as ApiDocumentationAnswer | '',
   existingSystem: '',
+  securityTopics: [] as SecurityTopic[],
   /** Only chooses the language of the messages the server answers with. */
   locale: locale.value,
   website: '',
@@ -117,10 +120,17 @@ form.transform(
     integrationNeeds,
     apiDocumentation,
     existingSystem,
+    securityTopics,
     ...data
   }) => {
     if (!consultation.value) return data
     const { businessType, activeMembers, modules, pricingEstimate, ...contact } = data
+    if (security.value) {
+      return {
+        ...contact,
+        ...(securityTopics.length ? { serviceDetails: { securityTopics } } : {}),
+      }
+    }
     if (integration.value) {
       const system = existingSystem.trim()
       const details = {
@@ -154,7 +164,11 @@ function onFormFocus() {
     track('consultation_form_started', {
       page: props.page,
       locale: locale.value,
-      interest: integration.value ? 'integration' : props.interests[0],
+      interest: integration.value
+        ? 'integration'
+        : security.value
+          ? 'security'
+          : props.interests[0],
     })
   } else {
     track('demo_form_started', { page: props.page, locale: locale.value })
@@ -343,7 +357,7 @@ const expectations = computed(() =>
             </div>
 
             <fieldset
-              v-if="consultation && !integration"
+              v-if="consultation && !integration && !security"
               class="dr__topics"
               :aria-describedby="
                 form.errors.serviceInterests ? 'demo-topics-error' : 'demo-topics-hint'
@@ -400,6 +414,22 @@ const expectations = computed(() =>
                     </option>
                   </select>
                 </div>
+              </div>
+            </fieldset>
+
+            <fieldset v-if="security" class="dr__topics" aria-describedby="demo-security-hint">
+              <legend>
+                {{ t.securityConsultation.form.topics }}
+                <small>{{ t.demo.form.optional }}</small>
+              </legend>
+              <span id="demo-security-hint" class="dr__hint">{{
+                t.securityConsultation.form.topicsHint
+              }}</span>
+              <div class="dr__chips">
+                <label v-for="item in options.securityTopics" :key="item.value" class="dr__chip">
+                  <input v-model="form.securityTopics" type="checkbox" :value="item.value" />
+                  <span>{{ item.label }}</span>
+                </label>
               </div>
             </fieldset>
 
@@ -515,15 +545,19 @@ const expectations = computed(() =>
                 id="demo-message"
                 v-model="form.message"
                 rows="3"
-                :aria-describedby="integration ? 'demo-credentials' : undefined"
+                :aria-describedby="integration || security ? 'demo-credentials' : undefined"
                 :placeholder="
                   consultation ? copy.form.messagePlaceholder : t.demo.form.messagePlaceholder
                 "
               />
             </div>
 
-            <p v-if="integration" id="demo-credentials" class="dr__note">
-              {{ t.integrationConsultation.form.credentials }}
+            <p v-if="integration || security" id="demo-credentials" class="dr__note">
+              {{
+                security
+                  ? t.securityConsultation.form.credentials
+                  : t.integrationConsultation.form.credentials
+              }}
             </p>
 
             <div class="dr__hp" aria-hidden="true">

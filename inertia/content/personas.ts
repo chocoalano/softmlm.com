@@ -35,6 +35,7 @@ import {
 } from 'lucide-vue-next'
 import type { PersonaKey } from '@shared/personas'
 import { INTEGRATIONS_PATH } from '@shared/integrations'
+import { SECURITY_PATH } from '@shared/security'
 
 /**
  * The structure of /who-we-serve and the five role pages: icons, links,
@@ -112,7 +113,7 @@ export const personaStructure: Record<PersonaKey, PersonaStructure> = {
     problems: 'topics',
     areas: [
       { icon: Link2, href: INTEGRATIONS_PATH },
-      { icon: ShieldCheck, href: '/#security' },
+      { icon: ShieldCheck, href: SECURITY_PATH },
       { icon: Route, href: '/#implementation' },
       { icon: ListChecks, href: '/pricing#estimate' },
     ],

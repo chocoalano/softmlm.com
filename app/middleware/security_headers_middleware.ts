@@ -12,8 +12,7 @@ import type { NextFn } from '@adonisjs/core/types/http'
  */
 export const SECURITY_HEADERS = {
   'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Permissions-Policy':
-    'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
 } as const

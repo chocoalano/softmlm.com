@@ -151,6 +151,18 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'marketing.security': {
+    methods: ["GET","HEAD"]
+    pattern: '/:locale/security'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { locale: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
   'marketing.services': {
     methods: ["GET","HEAD"]
     pattern: '/:locale/services'

@@ -600,9 +600,9 @@ const roles: (typeof en)['personas'] = {
           linkLabel: 'Pelajari perencanaan integrasi',
         },
         {
-          title: 'Pertanyaan keamanan',
-          text: 'Topik keamanan yang kami bahas sebelum Anda memutuskan.',
-          linkLabel: 'Lihat topik keamanan',
+          title: 'Kebutuhan keamanan',
+          text: 'Akses, data, integrasi dan infrastruktur, diperjelas sebelum implementasi.',
+          linkLabel: 'Pelajari Keamanan',
         },
         {
           title: 'Implementasi',

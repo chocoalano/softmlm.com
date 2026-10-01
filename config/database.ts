@@ -1,5 +1,8 @@
+import { mkdirSync } from 'node:fs'
+import { dirname } from 'node:path'
 import app from '@adonisjs/core/services/app'
 import { defineConfig } from '@adonisjs/lucid'
+import env from '#start/env'
 
 /**
  * Knex writes a failed query's bound values into the error message by
@@ -9,11 +12,36 @@ import { defineConfig } from '@adonisjs/lucid'
  */
 const errorsWithoutValues = { compileSqlOnError: false } as {}
 
+const connection = env.get('DB_CONNECTION', 'sqlite')
+
+/**
+ * Tests get their own file so running the suite never touches local
+ * development data. A fresh build has no tmp directory: create it, or the
+ * first query fails.
+ */
+const sqliteFile = app.tmpPath(app.inTest ? 'test.sqlite3' : 'db.sqlite3')
+if (connection === 'sqlite') mkdirSync(dirname(sqliteFile), { recursive: true })
+
+const migrations = {
+  /**
+   * Sort migration files naturally by filename.
+   */
+  naturalSort: true,
+
+  /**
+   * Paths containing migration files.
+   */
+  paths: ['database/migrations'],
+}
+
 const dbConfig = defineConfig({
   /**
-   * Default connection used for all queries.
+   * Default connection used for all queries: DB_CONNECTION, SQLite when
+   * unset. Production and staging use MySQL (docs/production-blockers.md
+   * #4): a SQLite file inside the deployed build is replaced by the next
+   * deployment.
    */
-  connection: 'sqlite',
+  connection,
 
   connections: {
     /**
@@ -23,11 +51,7 @@ const dbConfig = defineConfig({
       client: 'better-sqlite3',
 
       connection: {
-        /**
-         * Database file location. Tests get their own file so running
-         * the suite never touches local development data.
-         */
-        filename: app.tmpPath(app.inTest ? 'test.sqlite3' : 'db.sqlite3'),
+        filename: sqliteFile,
       },
 
       /**
@@ -37,17 +61,7 @@ const dbConfig = defineConfig({
 
       ...errorsWithoutValues,
 
-      migrations: {
-        /**
-         * Sort migration files naturally by filename.
-         */
-        naturalSort: true,
-
-        /**
-         * Paths containing migration files.
-         */
-        paths: ['database/migrations'],
-      },
+      migrations,
 
       schemaGeneration: {
         enabled: true,
@@ -56,32 +70,30 @@ const dbConfig = defineConfig({
     },
 
     /**
+     * MySQL 8 (production and staging). Credentials come from the
+     * environment only. Timestamps are written in the process time zone:
+     * run with TZ=UTC so the database stays in UTC (.env.example).
+     */
+    mysql: {
+      client: 'mysql2',
+      ...errorsWithoutValues,
+      connection: {
+        host: env.get('DB_HOST', '127.0.0.1'),
+        port: env.get('DB_PORT', 3306),
+        user: env.get('DB_USER'),
+        password: env.get('DB_PASSWORD')?.release(),
+        database: env.get('DB_DATABASE'),
+        charset: 'utf8mb4',
+      },
+      migrations,
+    },
+
+    /**
      * PostgreSQL connection.
      * Install package to switch: npm install pg
      */
     // pg: {
     //   client: 'pg',
-    //   connection: {
-    //     host: env.get('DB_HOST'),
-    //     port: env.get('DB_PORT'),
-    //     user: env.get('DB_USER'),
-    //     password: env.get('DB_PASSWORD'),
-    //     database: env.get('DB_DATABASE'),
-    //   },
-    //   migrations: {
-    //     naturalSort: true,
-    //     paths: ['database/migrations'],
-    //   },
-    //   debug: app.inDev,
-    // },
-
-    /**
-     * MySQL / MariaDB connection.
-     * Install package to switch: npm install mysql2
-     */
-    // mysql: {
-    //   client: 'mysql2',
-    //   ...errorsWithoutValues,
     //   connection: {
     //     host: env.get('DB_HOST'),
     //     port: env.get('DB_PORT'),

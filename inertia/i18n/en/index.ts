@@ -10,6 +10,7 @@ import features from './features'
 import implementation from './implementation'
 import services from './services'
 import integrations from './integrations'
+import security from './security'
 
 /**
  * All English marketing copy. This object's shape is the contract every
@@ -28,6 +29,7 @@ const messages = {
   implementation,
   services,
   integrations,
+  security,
 }
 
 export type Messages = typeof messages

@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "node bin/server.js",
-    "build": "npm ci --include=dev && node ace build",
-    "build:hostinger": "npm run build",
+    "build": "node ace build",
+    "build:hostinger": "npm run build && node build/ace.js migration:run --force",
     "dev": "node ace serve --hmr",
     "test": "node ace test",
     "lint": "eslint .",
@@ -85,6 +85,7 @@
     "edge.js": "^6.5.1",
     "lucide-vue-next": "^1.0.0",
     "luxon": "^3.7.2",
+    "mysql2": "^3.24.5",
     "reflect-metadata": "^0.2.2",
     "vue": "^3.5.43",
     "vue-sonner": "^2.0.9"

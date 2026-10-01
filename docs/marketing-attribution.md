@@ -169,6 +169,14 @@ WhatsApp CTA (an intent with a reference) and the integration consultation
 form (purpose Integration) are *explicit*. Viewing the IT role page alone is
 not an integration interest.
 
+**Security interest** (Phase 11, `/security`; label *Security & Access*):
+viewing the page is *viewed*; opening it from the footer, the homepage
+security section, the IT role page, Integrations or How We Do It
+(`feature_interest` with `security`), the `security_review` WhatsApp CTA (an
+intent with a reference) and the security consultation form (purpose
+Security & Access, topics in `service_details.securityTopics`) are
+*explicit*. Viewing the IT role page alone is not a security interest.
+
 **Explicit interest** means the visitor clicked a CTA, chose a service or
 feature, completed the needs estimate or sent a form. Everything else only
 shows what they **viewed**. The admin keeps the two apart ("Explicit

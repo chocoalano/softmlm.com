@@ -29,6 +29,11 @@ export const CLAIM_RULES: Rule[] = [
     pattern: /\b(?:is|are|stays?|kept|fully|highly)\s+secure\b|\bsecure by (?:default|design)\b/i,
   },
   {
+    rule: 'security guarantee claim',
+    pattern:
+      /\bunhackable\b|\bhack[- ]?proof\b|\bbulletproof\b|\bfully encrypted\b|\bencrypted at rest\b|\b(?:SOC ?2|ISO ?27001|PCI[- ]DSS|HIPAA)(?:\s+type\s+(?:I{1,2}|[12]))?\s+(?:certified|compliant|accredited)\b|\b(?:certified|compliant|accredited)\s+(?:with\s+|to\s+)?(?:SOC ?2|ISO ?27001|PCI[- ]DSS|HIPAA|GDPR|PDPA)\b|\b(?:GDPR|PDPA|HIPAA)[- ]compliant\b|\bguaranteed uptime\b|\buptime guarantee\b|\b(?:zero|no) data loss\b|\bdisaster[- ]proof\b|\b100% (?:secure|uptime|safe)\b|\b(?:enterprise|bank|military)[- ](?:grade|level) security\b/i,
+  },
+  {
     rule: 'availability claim',
     pattern: new RegExp(
       String.raw`\b${SUBJECT}\s+(?:now\s+|already\s+|automatically\s+)?${CAPABILITY_VERB}\b`,
@@ -137,6 +142,11 @@ export const CLAIM_RULES: Rule[] = [
       String.raw`\b(?:waktu nyata|tanpa batas|kelas enterprise|standar enterprise|setara (?:bank|enterprise)|standar perbankan|dijamin|bersertifikat|sepenuhnya otomatis|serba otomatis|100% otomatis|pasti akurat)\b`,
       'i'
     ),
+  },
+  {
+    rule: 'security guarantee claim (id)',
+    pattern:
+      /\btidak (?:bisa|dapat) (?:di)?retas\b|\banti[- ]?(?:retas|hack)\b|\bkebal (?:terhadap )?(?:peretasan|serangan|hack)\b|\bterenkripsi (?:penuh|sepenuhnya|seluruhnya|100%)|\bsepenuhnya terenkripsi\b|\bterenkripsi (?:saat|ketika) disimpan\b|\b(?:bersertifikat|tersertifikasi) (?:SOC ?2|ISO ?27001|PCI[- ]DSS)\b|\b(?:SOC ?2|ISO ?27001|PCI[- ]DSS) (?:bersertifikat|tersertifikasi)\b|\b(?:patuh|sesuai|memenuhi) (?:standar |ketentuan )?(?:GDPR|UU PDP|PDPA)\b|\buptime (?:dijamin|terjamin|100%)|\bjaminan uptime\b|\b(?:tanpa|nol|zero) kehilangan data\b|\bdata (?:tidak akan|tak akan|tidak pernah) hilang\b|\btahan bencana\b|\bkeamanan (?:anti peluru|tingkat (?:bank|militer|enterprise))\b|\b100% aman\b|\baman sepenuhnya\b|\bsepenuhnya aman\b/i,
   },
   {
     rule: 'security claim (id)',
@@ -298,6 +308,7 @@ export async function auditedFiles() {
     ...(await inDir('inertia/components/services/concepts', '.vue')),
     ...(await inDir('inertia/pages/services', '.vue')),
     ...(await inDir('inertia/components/integrations', '.vue')),
+    ...(await inDir('inertia/components/security', '.vue')),
     ...(await inDir('inertia/content', '.ts')),
     ...(await inDir('inertia/i18n/en', '.ts')),
     ...(await inDir('inertia/i18n/id', '.ts')),
@@ -309,6 +320,7 @@ export async function auditedFiles() {
     'inertia/pages/pricing.vue',
     'inertia/pages/how_we_do_it.vue',
     'inertia/pages/integrations.vue',
+    'inertia/pages/security.vue',
     'config/leads.ts',
     'config/seo.ts',
     'config/marketing.ts',
@@ -317,6 +329,7 @@ export async function auditedFiles() {
     'shared/implementation.ts',
     'shared/services.ts',
     'shared/integrations.ts',
+    'shared/security.ts',
     'shared/brand.ts',
     'inertia/pages/marketing_not_found.vue',
   ]

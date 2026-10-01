@@ -83,6 +83,7 @@ export const TRACKED_FEATURES = [
   'ecommerce',
   'wallet_payout',
   'integration',
+  'security',
 ] as const
 
 /** Kept in step with `serviceInterests` in shared/services.ts (a unit test checks). */
@@ -169,7 +170,7 @@ export function sanitizeEvent(
         locale,
         page: slug(props.page),
         ...(props.interest
-          ? { interest: oneOf(props.interest, [...TRACKED_SERVICES, 'integration']) }
+          ? { interest: oneOf(props.interest, [...TRACKED_SERVICES, 'integration', 'security']) }
           : {}),
       }
     case 'pricing_started':

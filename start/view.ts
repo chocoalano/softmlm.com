@@ -19,18 +19,26 @@ edge.global('brandName', MARKETING_BRAND_NAME)
  * escapes `/`: text such as `<!--<script` in a lead's message would put the
  * HTML parser in a state where the payload swallows the mount element, and
  * the back-office page would render blank. (SSR is off: config/inertia.ts.)
+ *
+ * Registered as a plugin: Edge runs plugins at the first render, in order,
+ * so this one replaces the Inertia plugin's global instead of being
+ * replaced by it.
  */
-edge.global(
-  'inertia',
-  (page: { ssrBody?: string } = {}, attributes: { id?: string; class?: string; as?: string } = {}) => {
-    if (page.ssrBody) return page.ssrBody
-    const id = attributes.id || 'app'
-    const tag = attributes.as || 'div'
-    const className = attributes.class ? ` class="${attributes.class}"` : ''
-    const json = JSON.stringify(page).replace(
-      /[<>&\u2028\u2029]/g,
-      (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
-    )
-    return `<script data-page="${id}" type="application/json">${json}</script><${tag} id="${id}"${className}></${tag}>`
-  }
-)
+function inertiaPayload(
+  page: { ssrBody?: string } = {},
+  attributes: { id?: string; class?: string; as?: string } = {}
+) {
+  if (page.ssrBody) return page.ssrBody
+  const id = attributes.id || 'app'
+  const tag = attributes.as || 'div'
+  const className = attributes.class ? ` class="${attributes.class}"` : ''
+  const json = JSON.stringify(page).replace(
+    /[<>&\u2028\u2029]/g,
+    (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
+  )
+  return `<script data-page="${id}" type="application/json">${json}</script><${tag} id="${id}"${className}></${tag}>`
+}
+
+edge.use((instance) => {
+  instance.global('inertia', inertiaPayload)
+})

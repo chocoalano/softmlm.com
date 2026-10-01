@@ -134,6 +134,11 @@ export default defineConfig({
       pattern: 'public/**',
       reloadServer: false,
     },
+    // CommonJS entry for Hostinger's lsnode.js (see server.cjs)
+    {
+      pattern: 'server.cjs',
+      reloadServer: false,
+    },
   ],
 
   hooks: {

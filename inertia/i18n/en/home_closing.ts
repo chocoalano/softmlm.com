@@ -272,45 +272,33 @@ export default {
 
   security: {
     eyebrow: 'Security & trust',
-    title: 'Security questions, answered before you commit.',
-    lead: "Your members' data and your distributors' money deserve serious protection. In a technical session we walk through each of these topics: what is in place, what is planned and how it applies to your deployment.",
-    whatsapp: 'Discuss security with our team',
+    title: 'Security requirements, discussed before launch.',
+    lead: 'Access, data, integrations and infrastructure each require different controls. We make those questions part of implementation planning.',
+    cta: 'Explore Security',
     items: [
       {
-        title: 'Encryption',
-        text: 'How data is protected in transit and at rest.',
+        title: 'Access & roles',
+        text: 'Who needs access, and what each role may see or change.',
       },
       {
-        title: 'Authentication',
-        text: 'How staff and members sign in, and which safeguards apply.',
+        title: 'Data protection',
+        text: 'Which data is sensitive, and who may view or export it.',
       },
       {
-        title: 'Role-based access',
-        text: 'Who can see and change what, per team.',
+        title: 'Integrations',
+        text: 'How connected systems authenticate, and which data they receive.',
       },
       {
-        title: 'Audit logs',
-        text: 'How changes to members, rules and money are recorded.',
+        title: 'Audit & traceability',
+        text: 'Which changes need a history of who changed what, and when.',
       },
       {
         title: 'Infrastructure',
-        text: 'Where the system runs and how environments are separated.',
+        text: 'Where the system runs, and how environments are separated and monitored.',
       },
       {
         title: 'Backup & recovery',
-        text: 'How often data is backed up, and how a restore works.',
-      },
-      {
-        title: 'Data isolation',
-        text: 'How your business data is kept apart from others.',
-      },
-      {
-        title: 'API security',
-        text: 'How integrations authenticate, and how abuse is limited.',
-      },
-      {
-        title: 'Monitoring',
-        text: 'How problems are detected, and who gets alerted.',
+        text: 'Recovery expectations, agreed and tested before production.',
       },
     ],
   },

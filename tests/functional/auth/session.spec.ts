@@ -49,6 +49,12 @@ test.group('Auth | sign in', (group) => {
     logout.assertHeader('location', '/login')
   })
 
+  test('the email is compared trimmed and in lower case', async ({ client }) => {
+    await makeUser()
+    const login = await signIn(client, '  Staff@MLMsoft.TEST ', PASSWORD)
+    login.assertHeader('location', '/dashboard')
+  })
+
   test('the same message for a wrong password and an unknown email', async ({ client }) => {
     await makeUser()
 
@@ -78,7 +84,8 @@ test.group('Auth | sign in', (group) => {
     // the test client's own session (it carries the CSRF secret)
     const failed = signIn(client, user.email, 'not-the-password')
     const failedId = failed.sessionClient.sessionId
-    assert.equal((await failed).cookie('adonis-session')?.value, failedId)
+    const failedResponse = await failed
+    assert.equal(failedResponse.cookie('adonis-session')?.value, failedId)
 
     const login = signIn(client, user.email, PASSWORD)
     const before = login.sessionClient.sessionId
@@ -122,12 +129,14 @@ test.group('Auth | sign in', (group) => {
     for (let i = 0; i < accountsConfig.login.failures - 1; i++) {
       await signIn(client, user.email, `wrong-${i}`)
     }
-    ;(await signIn(client, user.email, PASSWORD)).assertHeader('location', '/dashboard')
+    const first = await signIn(client, user.email, PASSWORD)
+    first.assertHeader('location', '/dashboard')
 
     for (let i = 0; i < accountsConfig.login.failures - 1; i++) {
       await signIn(client, user.email, `wrong-again-${i}`)
     }
-    ;(await signIn(client, user.email, PASSWORD)).assertHeader('location', '/dashboard')
+    const second = await signIn(client, user.email, PASSWORD)
+    second.assertHeader('location', '/dashboard')
   })
 
   test('caps sign-in requests per client address', async ({ client, assert }) => {
@@ -160,7 +169,10 @@ test.group('Auth | public sign-up', (group) => {
     const source = await import('node:fs/promises').then((fs) =>
       fs.readFile(new URL('../../../config/accounts.ts', import.meta.url), 'utf8')
     )
-    assert.match(source, /publicSignup:\s*env\.get\('PUBLIC_SIGNUP_ENABLED',\s*!app\.inProduction\)/)
+    assert.match(
+      source,
+      /publicSignup:\s*env\.get\('PUBLIC_SIGNUP_ENABLED',\s*!app\.inProduction\)/
+    )
   })
 
   test('when off, the page and the form are not found and nothing is created', async ({

@@ -637,9 +637,9 @@ const roles: Record<PersonaKey, PersonaCopy> = {
           linkLabel: 'Explore integration planning',
         },
         {
-          title: 'Security questions',
-          text: 'The security topics we go through before you commit.',
-          linkLabel: 'See security topics',
+          title: 'Security requirements',
+          text: 'Access, data, integrations and infrastructure, clarified before implementation.',
+          linkLabel: 'Explore Security',
         },
         {
           title: 'Implementation',
