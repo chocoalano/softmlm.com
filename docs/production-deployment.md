@@ -26,9 +26,15 @@ to back out. Background on the build output and the environment lives in
 | Output directory | `build/public` | With `build`, `/package.json`, `/config/app.js`, `/start/env.js` and `/bin/server.js` were publicly downloadable on mlmsofts.com (2026-10-01) |
 | Entry file | `server.cjs` | Hostinger's lsnode.js `require()`s the entry; `build/bin/server.js` (ES module, top-level await) failed with `ERR_REQUIRE_ASYNC_MODULE` → HTTP 503 (2026-10-01) |
 
-Hostinger documents the entry file of the Other preset as relative to the
-root directory, so `server.cjs` is the root wrapper; it loads
-`build/bin/server.js` with `import()`.
+On the real host the entry file is resolved **inside the output
+directory** (output `build` + entry `bin/server.js` ran `build/bin/server.js`,
+twice), although Hostinger documents it as relative to the root. With
+output `build/public`, entry `server.cjs` is `public/server.cjs`, a one-line
+stub copied to `build/public/`, which requires `build/server.cjs`; that
+wrapper loads `build/bin/server.js` with `import()`. The same entry also
+works if it is resolved from the root or with output `build` (all three
+checked under a simulated lsnode `require()`). The stub holds no
+configuration and is the only non-asset file in `public_html`.
 
 ## Before pushing
 

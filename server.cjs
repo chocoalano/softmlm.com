@@ -9,9 +9,11 @@
 | wrapper loads the server with import() instead.
 |
 | "node ace build" copies this file to "build/server.cjs" (see metaFiles in
-| adonisrc.ts), next to "build/bin/server.js". The copy in the source root
-| falls back to "build/bin/server.js", since Hostinger resolves the entry
-| file of the "Other" preset from the root directory.
+| adonisrc.ts), next to "build/bin/server.js"; the copy in the source root
+| falls back to "build/bin/server.js". Hostinger looks for the entry file
+| inside the output directory (`build/public`), where public/server.cjs, a
+| one-line stub, requires this file. So the entry `server.cjs` starts the
+| app from the root, from build/ or from build/public/.
 |
 */
 

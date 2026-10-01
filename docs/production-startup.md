@@ -32,16 +32,17 @@ Penjelasan:
   file. `server.cjs` adalah wrapper CommonJS yang memuat server dengan
   `import()`.
 
-  Untuk tipe Other, Hostinger membaca entry file relatif terhadap root
-  directory ([Build settings](https://docs.hostinger.com/node.js/build-settings)),
-  jadi yang dijalankan adalah `server.cjs` di root. Wrapper mencari
-  `bin/server.js` di folder yang sama, lalu `build/bin/server.js`.
-  `node ace build` juga menyalinnya ke `build/server.cjs` (`metaFiles` di
-  `adonisrc.ts`) untuk menjalankan hasil build di luar Hostinger. Jika
-  deployment gagal dengan pesan entry file tidak ditemukan di
-  `build/public/server.cjs`, berarti Hostinger membaca entry relatif
-  terhadap output directory: laporkan pesan lengkapnya sebelum mengubah
-  pengaturan lain.
+  Bukti dari host (dua kali): dengan output `build` dan entry
+  `bin/server.js`, Hostinger menjalankan `build/bin/server.js`. Jadi entry
+  file dicari **di dalam output directory**, berbeda dari dokumentasi
+  Hostinger. Karena output harus `build/public`, `public/server.cjs` (stub
+  satu baris, tersalin ke `build/public/server.cjs`) meneruskan ke
+  `build/server.cjs`, yang memuat `build/bin/server.js` dengan `import()`.
+  Entry `server.cjs` juga tetap jalan bila Hostinger membacanya dari root
+  (`server.cjs` di root) atau dengan output `build`. Stub itu satu-satunya
+  file non-aset yang tersalin ke `public_html`, dan isinya hanya
+  `require('../server.cjs')`. Jangan tambahkan script `postbuild` untuk
+  menyalin wrapper: `node ace build` sudah melakukannya (`metaFiles`).
 
 - **Output directory `build/public`.** Hostinger menyalin output directory
   ke `public_html`, dan CDN-nya menyajikan file di sana secara langsung,
