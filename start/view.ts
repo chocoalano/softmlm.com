@@ -10,8 +10,23 @@
 
 import edge from 'edge.js'
 import { MARKETING_BRAND_NAME } from '#shared/brand'
+import { searchEngines } from '#config/seo'
 
 edge.global('brandName', MARKETING_BRAND_NAME)
+
+/** `indexing` is false on staging: every page carries `<meta name="robots" content="noindex">`. */
+edge.global('searchEngines', searchEngines)
+
+/** JSON with `<`, `>`, `&` and line separators escaped, safe inside a `<script>` element. */
+function scriptJson(value: unknown) {
+  return JSON.stringify(value).replace(
+    /[<>&\u2028\u2029]/g,
+    (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
+  )
+}
+
+/** Structured data (schema.org JSON-LD) from a page's `seo` prop. */
+edge.global('jsonLd', scriptJson)
 
 /**
  * The page payload written by `@inertia()`, as the Inertia tag writes it
@@ -32,10 +47,7 @@ function inertiaPayload(
   const id = attributes.id || 'app'
   const tag = attributes.as || 'div'
   const className = attributes.class ? ` class="${attributes.class}"` : ''
-  const json = JSON.stringify(page).replace(
-    /[<>&\u2028\u2029]/g,
-    (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
-  )
+  const json = scriptJson(page)
   return `<script data-page="${id}" type="application/json">${json}</script><${tag} id="${id}"${className}></${tag}>`
 }
 

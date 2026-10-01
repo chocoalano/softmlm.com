@@ -10,6 +10,7 @@
 import { middleware } from '#start/kernel'
 import { seoFor, type MarketingPageKey } from '#config/seo'
 import { publicLeadOptionsFor } from '#config/leads'
+import MarketingTracker from '#services/marketing_tracker'
 import {
   demoRequestThrottle,
   loginThrottle,
@@ -22,6 +23,7 @@ import { FEATURES_PATH, featurePath, features } from '#shared/features'
 import { HOW_WE_DO_IT_PATH } from '#shared/implementation'
 import { INTEGRATIONS_PATH } from '#shared/integrations'
 import { SECURITY_PATH } from '#shared/security'
+import { PRIVACY_PATH, TERMS_PATH, TRACKING_PREFERENCE_PATH } from '#shared/legal'
 import { SERVICES_PATH, servicePath, services } from '#shared/services'
 import { DEFAULT_LOCALE, LOCALES, LOCALE_COOKIE, isLocale, type Locale } from '#shared/locales'
 import router from '@adonisjs/core/services/router'
@@ -43,6 +45,12 @@ router
   .as('home')
 
 /**
+ * For crawlers: built from the marketing page list (app/services/crawler_files.ts).
+ */
+router.get('robots.txt', [controllers.CrawlerFiles, 'robots']).as('robots')
+router.get('sitemap.xml', [controllers.CrawlerFiles, 'sitemap']).as('sitemap')
+
+/**
  * Pre-locale URLs move permanently to their English page, so no content is
  * served twice.
  */
@@ -54,11 +62,14 @@ const legacyPaths = [
   SERVICES_PATH,
   INTEGRATIONS_PATH,
   SECURITY_PATH,
+  PRIVACY_PATH,
+  TERMS_PATH,
+  FEATURES_PATH,
 ]
 for (const path of legacyPaths) {
   router.get(path, ({ response }) => response.redirect().withQs().status(301).toPath(`/en${path}`))
 }
-for (const prefix of [WHO_WE_SERVE_PATH, SERVICES_PATH]) {
+for (const prefix of [WHO_WE_SERVE_PATH, SERVICES_PATH, FEATURES_PATH]) {
   router
     .get(`${prefix}/:slug`, ({ params, response }) =>
       response.redirect().withQs().status(301).toPath(`/en${prefix}/${params.slug}`)
@@ -128,6 +139,21 @@ router
       .as('security')
 
     router
+      .get(PRIVACY_PATH, ({ params, request, inertia }) =>
+        inertia.render('legal/privacy', {
+          ...pageProps('privacy', params),
+          trackingPreference: MarketingTracker.preference(request),
+        })
+      )
+      .as('privacy')
+
+    router
+      .get(TERMS_PATH, ({ params, inertia }) =>
+        inertia.render('legal/terms', pageProps('terms', params))
+      )
+      .as('terms')
+
+    router
       .get(SERVICES_PATH, ({ params, inertia }) =>
         inertia.render('services/index', pageProps('services', params))
       )
@@ -188,6 +214,13 @@ router
   .post('marketing/events', [controllers.MarketingEvents, 'store'])
   .use(marketingEventsThrottle)
   .as('marketing.events.store')
+/**
+ * The analytics switch on the Privacy Notice: sets or clears this
+ * browser's opt-out cookie.
+ */
+router
+  .post(TRACKING_PREFERENCE_PATH, [controllers.TrackingPreference, 'update'])
+  .as('tracking_preference.update')
 router
   .get('r/whatsapp/:context', [controllers.WhatsappRedirect, 'show'])
   .where('context', /^[a-z_]{2,40}$/)

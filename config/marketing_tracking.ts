@@ -17,12 +17,15 @@ const marketingTrackingConfig = {
     visitor: 'mlmsoft_visitor',
     /** The current visit (session): expires after inactivity. */
     visit: 'mlmsoft_visit',
-    /** "off" disables tracking for this browser (for a future consent control). */
+    /** "off" disables tracking for this browser (set from the Privacy Notice). */
     optOut: 'mlmsoft_tracking',
   },
 
   /** How long a returning browser is recognised as the same visitor. */
   visitorDays: 90,
+
+  /** How long the visitor's "analytics off" choice is remembered. */
+  optOutDays: 365,
 
   /** A visit ends after this much inactivity (or on a new campaign). */
   sessionTimeoutMinutes: 30,

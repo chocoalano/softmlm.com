@@ -24,8 +24,10 @@ const NOT_MARKETING = [
   // tracked WhatsApp redirect (first-party tracking), not a page
   /^\/r\/whatsapp\//,
   // pre-locale URLs, redirected to /en
-  /^\/(?:compensation-plans|pricing|who-we-serve|how-we-do-it|services|integrations|security)$/,
-  /^\/(?:who-we-serve|services)\/:slug$/,
+  /^\/(?:compensation-plans|pricing|who-we-serve|how-we-do-it|services|integrations|security|privacy|terms|features)$/,
+  /^\/(?:who-we-serve|services|features)\/:slug$/,
+  // crawler files built from the page list
+  /^\/(?:robots\.txt|sitemap\.xml)$/,
 ]
 
 /**

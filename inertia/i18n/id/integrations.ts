@@ -10,7 +10,7 @@ const integrations: typeof en = {
     eyebrow: 'Integrasi',
     title: 'Bisnis Anda tidak dimulai',
     highlight: 'dari sistem yang kosong.',
-    lead: 'Payment, logistik, finance, messaging dan sistem internal mungkin sudah menjadi bagian dari operasional Anda setiap hari. Kami memetakan data apa saja yang perlu terhubung sebelum menentukan bagaimana integrasinya perlu dibangun.',
+    lead: 'Pembayaran, logistik, finance, messaging dan sistem internal mungkin sudah menjadi bagian dari operasional Anda setiap hari. Kami memetakan data apa saja yang perlu terhubung sebelum menentukan bagaimana integrasinya perlu dibangun.',
     cta: 'Diskusikan Kebutuhan Integrasi',
     secondary: 'Ajukan Konsultasi Integrasi',
   },
@@ -130,7 +130,7 @@ const integrations: typeof en = {
   },
 
   truth: {
-    eyebrow: 'Source of truth',
+    eyebrow: 'Sumber data utama',
     title: 'Setiap data perlu punya pemilik yang jelas.',
     lead: 'Sebelum pengembangan, tim perlu sepakat sistem mana yang menjadi acuan utama untuk setiap jenis data. Kadang itu sistem MLM, kadang sistem lain yang sudah Anda jalankan.',
     domainLabel: 'Jenis data',

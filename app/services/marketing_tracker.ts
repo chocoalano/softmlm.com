@@ -16,6 +16,7 @@ import { services } from '#shared/services'
 import { features } from '#shared/features'
 import { INTEGRATIONS_PATH } from '#shared/integrations'
 import { SECURITY_PATH } from '#shared/security'
+import type { TrackingPreference } from '#shared/legal'
 import type DemoRequest from '#models/demo_request'
 import type { Attribution } from '#middleware/capture_attribution_middleware'
 import { contactPurposeOf, leadFormOf } from '#services/contact_purpose'
@@ -133,16 +134,49 @@ export default class MarketingTracker {
    * Control) and the request does not come from an obvious bot.
    */
   static allowed(request: HttpContext['request']) {
-    if (!trackingConfig.enabled) return false
-    if (request.header('sec-gpc') === '1') return false
+    return (
+      MarketingTracker.preference(request) === 'on' &&
+      !MarketingTracker.isBot(request.header('user-agent'))
+    )
+  }
+
+  /**
+   * This browser's analytics setting, as the Privacy Notice shows it:
+   * switched off for everyone, Global Privacy Control sent, turned off by
+   * the visitor (opt-out cookie), or on.
+   */
+  static preference(request: HttpContext['request']): TrackingPreference {
+    if (!trackingConfig.enabled) return 'disabled'
+    if (request.header('sec-gpc') === '1') return 'gpc'
     const optOut = trackingConfig.cookies.optOut
     if (
       request.plainCookie(optOut, { encoded: false }) === 'off' ||
       request.plainCookie(optOut) === 'off'
     ) {
-      return false
+      return 'off'
     }
-    return !MarketingTracker.isBot(request.header('user-agent'))
+    return 'on'
+  }
+
+  /**
+   * The visitor turned analytics off (Privacy Notice): the choice is kept
+   * for `optOutDays`, and the visitor and visit ids are dropped, so this
+   * browser is no longer recognised. Data already recorded stays anonymous
+   * and follows the retention policy.
+   */
+  static optOut(response: HttpContext['response']) {
+    const { cookies, optOutDays } = trackingConfig
+    response.plainCookie(cookies.optOut, 'off', {
+      ...MarketingTracker.#cookieOptions(`${optOutDays}d`),
+      encode: false,
+    })
+    response.clearCookie(cookies.visitor)
+    response.clearCookie(cookies.visit)
+  }
+
+  /** The visitor turned analytics back on: the next page view starts a new visitor. */
+  static optIn(response: HttpContext['response']) {
+    response.clearCookie(trackingConfig.cookies.optOut)
   }
 
   static isBot(userAgent: string | undefined) {

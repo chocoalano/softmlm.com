@@ -11,7 +11,8 @@ type ConfirmationCopy = {
   heading: (firstName: string) => string
   received: (company: string) => string
   interests: (list: string) => string
-  footer: string
+  /** `site` is the host of APP_URL, the site the visitor used. */
+  footer: (site: string) => string
 }
 
 export type LeadConfirmationText = ConfirmationCopy & {
@@ -28,16 +29,16 @@ export const leadConfirmationText: Record<Locale, LeadConfirmationText> = {
       `We've received your request for a ${BRAND} demo for ${company}. Someone from our team will contact you to find a time that works for you.`,
     interests: (modules) => `You told us you're interested in: ${modules}.`,
     reply: "If you'd like to add anything before we talk, simply reply to this email.",
-    footer:
-      "You're receiving this because this email address was used to request a demo on mlmsoft.com. If that wasn't you, you can ignore this message.",
+    footer: (site) =>
+      `You're receiving this because this email address was used to request a demo on ${site}. If that wasn't you, you can ignore this message.`,
     consultation: {
       subject: "We've received your consultation request",
       heading: (firstName) => `Thanks, ${firstName}. Your consultation request is in.`,
       received: (company) =>
         `We've received your consultation request for ${company}. Someone from our team will contact you to discuss what you need.`,
       interests: (list) => `You'd like to discuss: ${list}.`,
-      footer:
-        "You're receiving this because this email address was used to request a consultation on mlmsoft.com. If that wasn't you, you can ignore this message.",
+      footer: (site) =>
+        `You're receiving this because this email address was used to request a consultation on ${site}. If that wasn't you, you can ignore this message.`,
     },
   },
   id: {
@@ -47,8 +48,8 @@ export const leadConfirmationText: Record<Locale, LeadConfirmationText> = {
       `Kami sudah menerima permintaan demo ${BRAND} untuk ${company}. Tim kami akan menghubungi Anda untuk mencari waktu yang sesuai.`,
     interests: (modules) => `Area yang Anda minati: ${modules}.`,
     reply: 'Jika ada yang ingin Anda tambahkan sebelum kita berdiskusi, cukup balas email ini.',
-    footer:
-      'Anda menerima email ini karena alamat email ini digunakan untuk meminta demo di mlmsoft.com. Jika bukan Anda, abaikan saja pesan ini.',
+    footer: (site) =>
+      `Anda menerima email ini karena alamat email ini digunakan untuk meminta demo di ${site}. Jika bukan Anda, abaikan saja pesan ini.`,
     consultation: {
       subject: 'Permintaan konsultasi Anda sudah kami terima',
       heading: (firstName) =>
@@ -56,8 +57,8 @@ export const leadConfirmationText: Record<Locale, LeadConfirmationText> = {
       received: (company) =>
         `Kami sudah menerima permintaan konsultasi untuk ${company}. Tim kami akan menghubungi Anda untuk membahas kebutuhan Anda.`,
       interests: (list) => `Topik yang ingin Anda diskusikan: ${list}.`,
-      footer:
-        'Anda menerima email ini karena alamat email ini digunakan untuk meminta konsultasi di mlmsoft.com. Jika bukan Anda, abaikan saja pesan ini.',
+      footer: (site) =>
+        `Anda menerima email ini karena alamat email ini digunakan untuk meminta konsultasi di ${site}. Jika bukan Anda, abaikan saja pesan ini.`,
     },
   },
 }

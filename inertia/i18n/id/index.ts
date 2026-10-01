@@ -12,6 +12,7 @@ import implementation from './implementation'
 import services from './services'
 import integrations from './integrations'
 import security from './security'
+import legal from './legal'
 
 /**
  * All Indonesian marketing copy: the same shape as the English messages.
@@ -30,6 +31,7 @@ const messages: Messages = {
   services,
   integrations,
   security,
+  legal,
 }
 
 export default messages

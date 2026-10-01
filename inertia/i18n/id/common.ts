@@ -166,6 +166,8 @@ const common: typeof en = {
       bookDemo: 'Jadwalkan demo',
       servicesOverview: 'Semua layanan',
     },
+    privacy: 'Privasi',
+    terms: 'Syarat Penggunaan',
     staffLogin: 'Login staf',
     backToTop: 'Kembali ke atas',
   },
@@ -304,6 +306,7 @@ const common: typeof en = {
       sending: 'Mengirim…',
       consent:
         'Dengan mengirim formulir ini, Anda setuju mlmsoft menggunakan data ini untuk menghubungi Anda terkait permintaan ini. Kami tidak memasukkan Anda ke mailing list.',
+      privacyLink: 'Cara kami menangani data Anda',
     },
   },
 

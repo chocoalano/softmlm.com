@@ -99,7 +99,9 @@ test.group('Services pages', () => {
     assert.include(branding, `rel="canonical" href="${APP_URL}/en/services/branding"`)
     assert.include(branding, `hreflang="id" href="${APP_URL}/id/services/branding"`)
     assert.include(branding, `hreflang="x-default" href="${APP_URL}/en/services/branding"`)
-    assert.notInclude(branding, 'application/ld+json')
+    // structured data: the breadcrumb trail only (Phase 12C, docs/seo-indexability.md)
+    assert.include(branding, '"@type":"BreadcrumbList"')
+    assert.notMatch(branding, /"@type":"(?:Organization|Service|Product|FAQPage)"/)
 
     const maklon = await html(client, '/id/services/product-maklon')
     assert.include(maklon, '<html\n  lang="id"')
@@ -136,7 +138,7 @@ test.group('Services pages', () => {
     )
     assert.equal(
       whatsappMessages.id.service_seo,
-      'Halo mlmsoft, saya ingin konsultasi mengenai SEO dan content marketing.'
+      'Halo mlmsoft, saya ingin konsultasi mengenai SEO dan konten.'
     )
     assert.equal(
       whatsappMessages.id.service_paid_ads,

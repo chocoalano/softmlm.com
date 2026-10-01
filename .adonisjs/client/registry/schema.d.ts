@@ -19,6 +19,30 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'robots': {
+    methods: ["GET","HEAD"]
+    pattern: '/robots.txt'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/crawler_files_controller').default['robots']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/crawler_files_controller').default['robots']>>>
+    }
+  }
+  'sitemap': {
+    methods: ["GET","HEAD"]
+    pattern: '/sitemap.xml'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/crawler_files_controller').default['sitemap']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/crawler_files_controller').default['sitemap']>>>
+    }
+  }
   'marketing.home': {
     methods: ["GET","HEAD"]
     pattern: '/:locale'
@@ -154,6 +178,30 @@ export interface Registry {
   'marketing.security': {
     methods: ["GET","HEAD"]
     pattern: '/:locale/security'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { locale: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'marketing.privacy': {
+    methods: ["GET","HEAD"]
+    pattern: '/:locale/privacy'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { locale: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'marketing.terms': {
+    methods: ["GET","HEAD"]
+    pattern: '/:locale/terms'
     types: {
       body: {}
       paramsTuple: [ParamValue]
@@ -317,6 +365,18 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/marketing_event').marketingEventsValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/marketing_events_controller').default['store']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/marketing_events_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'tracking_preference.update': {
+    methods: ["POST"]
+    pattern: '/privacy/tracking'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/tracking_preference_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/tracking_preference_controller').default['update']>>>
     }
   }
   'whatsapp.redirect': {

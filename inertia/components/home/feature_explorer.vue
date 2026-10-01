@@ -52,6 +52,14 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', syncFromHash))
 
 <template>
   <section id="features" ref="root" class="sm-section fx">
+    <!-- real targets for #feature-<key> links, so the page scrolls here on load -->
+    <span
+      v-for="item in modules"
+      :id="`feature-${item.key}`"
+      :key="`anchor-${item.key}`"
+      class="fx__anchor"
+      aria-hidden="true"
+    />
     <div class="sm-container">
       <div class="sm-heading sm-heading--center">
         <span v-reveal class="sm-eyebrow">{{ t.features.eyebrow }}</span>
@@ -119,6 +127,11 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', syncFromHash))
 </template>
 
 <style scoped>
+.fx__anchor {
+  display: block;
+  height: 0;
+  scroll-margin-top: var(--sm-header-h);
+}
 .fx__tabs-wrap {
   display: flex;
   justify-content: center;

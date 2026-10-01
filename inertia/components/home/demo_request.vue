@@ -17,6 +17,7 @@ import { useCopy, useI18n } from '~/i18n'
 import { track } from '@shared/analytics'
 import type { WhatsappContext } from '@shared/whatsapp'
 import type { ServiceInterest } from '@shared/services'
+import { PRIVACY_PATH } from '@shared/legal'
 import type {
   ApiDocumentationAnswer,
   BusinessType,
@@ -67,7 +68,7 @@ const props = withDefaults(
 )
 
 const t = useCopy('common')
-const { locale } = useI18n()
+const { locale, lp } = useI18n()
 const integration = computed(() => props.mode === 'integration')
 const security = computed(() => props.mode === 'security')
 /** The services, integration and security consultations ask no software questions. */
@@ -585,7 +586,11 @@ const expectations = computed(() =>
               }}
               <ArrowRight v-if="!form.processing" :size="18" class="sm-btn__arrow" />
             </button>
-            <p class="dr__fine">{{ t.demo.form.consent }}</p>
+            <p class="dr__fine">
+              {{ t.demo.form.consent }}
+              <a :href="lp(PRIVACY_PATH)">{{ t.demo.form.privacyLink }}</a
+              >.
+            </p>
           </form>
         </div>
       </div>
@@ -845,6 +850,11 @@ const expectations = computed(() =>
   font-size: 13px;
   color: var(--sm-subtle);
   text-align: center;
+}
+.dr__fine a {
+  color: var(--sm-primary-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 .dr__note {
   padding: 10px 12px;

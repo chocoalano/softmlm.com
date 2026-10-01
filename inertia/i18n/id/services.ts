@@ -191,7 +191,7 @@ const services: typeof en = {
         },
         {
           q: 'Apakah maklon termasuk produksi?',
-          a: 'Kami juga menerima jasa pengembangan dan maklon produk, termasuk produksinya. Kebutuhan formulasi, kemasan, regulasi, volume produksi dan proses implementasi akan dibahas berdasarkan produk yang ingin dikembangkan.',
+          a: 'Ya. Kami juga menerima permintaan pengembangan dan maklon produk, termasuk produksinya. Kebutuhan formulasi, kemasan, regulasi, volume produksi dan proses implementasi akan dibahas berdasarkan produk yang ingin dikembangkan.',
         },
         {
           q: 'Bisakah bekerja dengan brand atau tim yang sudah ada?',
@@ -457,7 +457,7 @@ const services: typeof en = {
       hero: {
         eyebrow: 'Iklan Digital',
         title: 'Kelola iklan sebagai',
-        highlight: 'channel pertumbuhan yang lebih terarah.',
+        highlight: 'kanal pertumbuhan yang lebih terarah.',
         lead: 'Perencanaan kampanye, strategi audiens, arahan kreatif dan penyelarasan landing page, agar setiap kampanye punya tujuan yang jelas dan ditinjau berdasarkan tujuan itu.',
         cta: 'Diskusikan Target Iklan Anda',
       },
@@ -681,7 +681,7 @@ const services: typeof en = {
         eyebrow: 'Pengembangan & Maklon Produk',
         title: 'Ceritakan produk',
         highlight: 'yang ingin Anda buat.',
-        lead: 'Kami juga menerima jasa pengembangan dan maklon produk untuk kebutuhan bisnis MLM dan direct selling. Kami dapat membahas konsep produk, target pasar, kemasan, kebutuhan produksi, dan rencana peluncurannya bersama Anda.',
+        lead: 'Kami menerima permintaan pengembangan dan maklon produk untuk bisnis MLM dan direct selling. Kami dapat membahas konsep produk, target pasar, kemasan, kebutuhan produksi, dan rencana peluncurannya bersama Anda.',
         cta: 'Konsultasi Maklon Produk',
       },
       problem: {

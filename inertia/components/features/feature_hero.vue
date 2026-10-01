@@ -1,18 +1,17 @@
 <script setup lang="ts">
+import SiteBreadcrumbs from '~/components/site/breadcrumbs.vue'
 import { computed } from 'vue'
-import { ChevronRight } from 'lucide-vue-next'
 import { vReveal } from '~/composables/reveal'
 import NetworkOrb from '~/components/site/network_orb.vue'
 import MarketingWhatsappCta from '~/components/site/marketing_whatsapp_cta.vue'
-import { FEATURES_PATH, featureTrackingPage, type FeatureKey } from '@shared/features'
+import { featureTrackingPage, type FeatureKey } from '@shared/features'
 import { featureIcons } from '~/content/features'
-import { useCopy, useI18n } from '~/i18n'
+import { useCopy } from '~/i18n'
 
 const props = defineProps<{ feature: FeatureKey }>()
 
 const t = useCopy('features')
 const common = useCopy('common')
-const { lp } = useI18n()
 const hero = computed(() => t.value.pages[props.feature].hero)
 </script>
 
@@ -21,15 +20,7 @@ const hero = computed(() => t.value.pages[props.feature].hero)
     <div class="fhero__bg" aria-hidden="true" />
     <div class="sm-container fhero__grid">
       <div class="fhero__copy">
-        <nav v-reveal :aria-label="common.breadcrumb" class="fhero__crumbs">
-          <ol>
-            <li>
-              <a :href="lp(FEATURES_PATH)">{{ t.shared.breadcrumbRoot }}</a>
-              <ChevronRight :size="14" aria-hidden="true" />
-            </li>
-            <li aria-current="page">{{ hero.eyebrow }}</li>
-          </ol>
-        </nav>
+        <SiteBreadcrumbs v-reveal />
         <h1 v-reveal="80" class="sm-h1 fhero__title">
           {{ hero.title }} <span class="sm-grad">{{ hero.highlight }}</span>
         </h1>
@@ -94,31 +85,6 @@ const hero = computed(() => t.value.pages[props.feature].hero)
   flex-direction: column;
   align-items: flex-start;
   gap: 22px;
-}
-.fhero__crumbs ol {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--sm-muted);
-}
-.fhero__crumbs li {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.fhero__crumbs a {
-  font-weight: 500;
-  color: var(--sm-text-2);
-}
-.fhero__crumbs a:hover {
-  color: var(--sm-primary-ink);
-}
-.fhero__crumbs [aria-current] {
-  font-weight: 600;
-  color: var(--sm-text);
 }
 .fhero__title {
   font-size: clamp(40px, 5.2vw, 68px);

@@ -3,6 +3,8 @@ import type { routes } from './index.ts'
 
 export interface ApiDefinition {
   home: typeof routes['home']
+  robots: typeof routes['robots']
+  sitemap: typeof routes['sitemap']
   marketing: {
     home: typeof routes['marketing.home']
     compensationPlans: typeof routes['marketing.compensation_plans']
@@ -17,6 +19,8 @@ export interface ApiDefinition {
     howWeDoIt: typeof routes['marketing.how_we_do_it']
     integrations: typeof routes['marketing.integrations']
     security: typeof routes['marketing.security']
+    privacy: typeof routes['marketing.privacy']
+    terms: typeof routes['marketing.terms']
     services: typeof routes['marketing.services'] & {
       socialMedia: typeof routes['marketing.services.social_media']
       seo: typeof routes['marketing.services.seo']
@@ -36,6 +40,9 @@ export interface ApiDefinition {
   }
   demoRequests: {
     store: typeof routes['demo_requests.store']
+  }
+  trackingPreference: {
+    update: typeof routes['tracking_preference.update']
   }
   whatsapp: {
     redirect: typeof routes['whatsapp.redirect']

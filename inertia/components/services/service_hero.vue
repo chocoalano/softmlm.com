@@ -3,13 +3,11 @@
  * Hero of the services hub and of each service page: WhatsApp first, the
  * page's consultation form second, and the page's concept visual.
  */
-import { ChevronRight } from 'lucide-vue-next'
+import SiteBreadcrumbs from '~/components/site/breadcrumbs.vue'
 import { vReveal } from '~/composables/reveal'
 import MarketingWhatsappCta from '~/components/site/marketing_whatsapp_cta.vue'
 import type { WhatsappContext } from '@shared/whatsapp'
-import { SERVICES_PATH } from '@shared/services'
 import { useLeadTarget } from '~/composables/lead_target'
-import { useCopy, useI18n } from '~/i18n'
 
 withDefaults(
   defineProps<{
@@ -28,9 +26,6 @@ withDefaults(
   { breadcrumb: false, secondaryHref: undefined, secondaryLabel: undefined }
 )
 
-const t = useCopy('services')
-const common = useCopy('common')
-const { lp } = useI18n()
 const leadTarget = useLeadTarget()
 </script>
 
@@ -39,15 +34,7 @@ const leadTarget = useLeadTarget()
     <div class="shero__bg" aria-hidden="true" />
     <div class="sm-container shero__grid">
       <div class="shero__copy">
-        <nav v-if="breadcrumb" v-reveal :aria-label="common.breadcrumb" class="shero__crumbs">
-          <ol>
-            <li>
-              <a :href="lp(SERVICES_PATH)">{{ t.shared.breadcrumbRoot }}</a>
-              <ChevronRight :size="14" aria-hidden="true" />
-            </li>
-            <li aria-current="page">{{ eyebrow }}</li>
-          </ol>
-        </nav>
+        <SiteBreadcrumbs v-if="breadcrumb" v-reveal />
         <span v-else v-reveal class="sm-eyebrow">{{ eyebrow }}</span>
         <h1 id="shero-title" v-reveal="60" class="sm-h1 shero__title">
           {{ title }} <span class="sm-grad">{{ highlight }}</span>
@@ -102,31 +89,6 @@ const leadTarget = useLeadTarget()
   flex-direction: column;
   align-items: flex-start;
   gap: 22px;
-}
-.shero__crumbs ol {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--sm-muted);
-}
-.shero__crumbs li {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.shero__crumbs a {
-  font-weight: 500;
-  color: var(--sm-text-2);
-}
-.shero__crumbs a:hover {
-  color: var(--sm-primary-ink);
-}
-.shero__crumbs [aria-current] {
-  font-weight: 600;
-  color: var(--sm-text);
 }
 .shero__title {
   font-size: clamp(36px, 4.7vw, 62px);

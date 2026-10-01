@@ -1,18 +1,17 @@
 <script setup lang="ts">
+import SiteBreadcrumbs from '~/components/site/breadcrumbs.vue'
 import { computed } from 'vue'
-import { ChevronRight } from 'lucide-vue-next'
 import { vReveal } from '~/composables/reveal'
 import NetworkOrb from '~/components/site/network_orb.vue'
 import MarketingWhatsappCta from '~/components/site/marketing_whatsapp_cta.vue'
-import { WHO_WE_SERVE_PATH, personaTrackingPage, type PersonaKey } from '@shared/personas'
+import { personaTrackingPage, type PersonaKey } from '@shared/personas'
 import { personaIcons } from '~/content/personas'
-import { useCopy, useI18n } from '~/i18n'
+import { useCopy } from '~/i18n'
 
 const props = defineProps<{ persona: PersonaKey }>()
 
 const t = useCopy('personas')
 const common = useCopy('common')
-const { lp } = useI18n()
 const hero = computed(() => t.value.personas[props.persona].hero)
 </script>
 
@@ -21,15 +20,7 @@ const hero = computed(() => t.value.personas[props.persona].hero)
     <div class="phero__bg" aria-hidden="true" />
     <div class="sm-container phero__grid">
       <div class="phero__copy">
-        <nav v-reveal :aria-label="common.breadcrumb" class="phero__crumbs">
-          <ol>
-            <li>
-              <a :href="lp(WHO_WE_SERVE_PATH)">{{ common.nav.whoWeServe }}</a>
-              <ChevronRight :size="14" aria-hidden="true" />
-            </li>
-            <li aria-current="page">{{ common.roles[persona].label }}</li>
-          </ol>
-        </nav>
+        <SiteBreadcrumbs v-reveal />
         <span v-reveal="40" class="sm-eyebrow">{{ hero.eyebrow }}</span>
         <h1 v-reveal="80" class="sm-h1 phero__title">
           {{ hero.title }} <span class="sm-grad">{{ hero.highlight }}</span>
@@ -95,31 +86,6 @@ const hero = computed(() => t.value.personas[props.persona].hero)
   flex-direction: column;
   align-items: flex-start;
   gap: 22px;
-}
-.phero__crumbs ol {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--sm-muted);
-}
-.phero__crumbs li {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.phero__crumbs a {
-  font-weight: 500;
-  color: var(--sm-text-2);
-}
-.phero__crumbs a:hover {
-  color: var(--sm-primary-ink);
-}
-.phero__crumbs [aria-current] {
-  font-weight: 600;
-  color: var(--sm-text);
 }
 .phero__title {
   font-size: clamp(40px, 5.2vw, 68px);

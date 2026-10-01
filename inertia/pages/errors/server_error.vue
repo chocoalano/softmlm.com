@@ -11,7 +11,7 @@ const links = computed(() => [{ label: t.value.serverError.home, href: lp('/') }
 </script>
 
 <template>
-  <MarketingLayout page="server_error" context="general">
+  <MarketingLayout page="server_error" context="general" lead-mode="home">
     <Head :title="t.serverError.title">
       <meta head-key="robots" name="robots" content="noindex" />
     </Head>

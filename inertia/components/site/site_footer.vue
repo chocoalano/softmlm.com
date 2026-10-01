@@ -9,6 +9,7 @@ import { FEATURES_PATH, featurePath, findFeature } from '@shared/features'
 import { HOW_WE_DO_IT_PATH } from '@shared/implementation'
 import { INTEGRATIONS_PATH } from '@shared/integrations'
 import { SECURITY_PATH } from '@shared/security'
+import { PRIVACY_PATH, TERMS_PATH } from '@shared/legal'
 import { SERVICES_PATH, servicePath, services } from '@shared/services'
 import { useCopy, useI18n } from '~/i18n'
 import { useLeadTarget } from '~/composables/lead_target'
@@ -113,7 +114,9 @@ const year = new Date().getFullYear()
       <div class="ftr__bottom">
         <span>© {{ year }} mlmsoft. {{ t.brand.rights }}</span>
         <span class="ftr__bottom-links">
-          <a href="/login" class="ftr__staff">{{ t.footer.staffLogin }}</a>
+          <a :href="lp(PRIVACY_PATH)">{{ t.footer.privacy }}</a>
+          <a :href="lp(TERMS_PATH)">{{ t.footer.terms }}</a>
+          <a href="/login" class="ftr__staff" rel="nofollow">{{ t.footer.staffLogin }}</a>
           <a href="#top" class="ftr__top-link">{{ t.footer.backToTop }} <ArrowUp :size="14" /></a>
         </span>
       </div>
@@ -167,7 +170,14 @@ const year = new Date().getFullYear()
 }
 .ftr__bottom-links {
   display: inline-flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.ftr__bottom-links a:not(.ftr__top-link) {
+  color: var(--sm-muted);
+}
+.ftr__bottom-links a:not(.ftr__top-link):hover {
+  color: var(--sm-text-2);
 }
 .ftr__staff {
   color: var(--sm-subtle);

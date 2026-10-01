@@ -1,4 +1,5 @@
 import { BaseMail } from '@adonisjs/mail'
+import env from '#start/env'
 import type DemoRequest from '#models/demo_request'
 import { isConsultationSource, publicLeadOptionsFor } from '#config/leads'
 import { leadConfirmationText } from '#i18n/lead_confirmation'
@@ -50,7 +51,7 @@ export default class DemoRequestConfirmation extends BaseMail {
       received: text.received(this.lead.company),
       interests: modules ? text.interests(modules) : null,
       reply: this.replyToAddress ? leadConfirmationText[locale].reply : null,
-      footer: text.footer,
+      footer: text.footer(new URL(env.get('APP_URL')).host),
     }
 
     if (this.replyToAddress) this.message.replyTo(this.replyToAddress)

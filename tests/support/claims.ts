@@ -309,6 +309,8 @@ export async function auditedFiles() {
     ...(await inDir('inertia/pages/services', '.vue')),
     ...(await inDir('inertia/components/integrations', '.vue')),
     ...(await inDir('inertia/components/security', '.vue')),
+    ...(await inDir('inertia/components/legal', '.vue')),
+    ...(await inDir('inertia/pages/legal', '.vue')),
     ...(await inDir('inertia/content', '.ts')),
     ...(await inDir('inertia/i18n/en', '.ts')),
     ...(await inDir('inertia/i18n/id', '.ts')),

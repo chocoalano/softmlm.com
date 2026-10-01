@@ -91,6 +91,7 @@ Daftar lengkap dan validasinya ada di `start/env.ts`. Contoh format ada di
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USERNAME`, `SMTP_PASSWORD` | dari penyedia email |
 | `SALES_NOTIFICATION_EMAILS` | inbox sales, dipisah koma |
 | `WHATSAPP_MARKETING_NUMBER` | nomor sales format internasional, mis. `62…` |
+| `SEARCH_INDEXING_ENABLED` | jangan diisi di production; `false` di staging agar tidak diindeks mesin pencari |
 
 Catatan:
 

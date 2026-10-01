@@ -37,6 +37,7 @@ const leadsConfig = {
     { value: 'feature_page', label: 'Feature page' },
     { value: 'role_page', label: 'Who we serve page' },
     { value: 'implementation_page', label: 'How we do it page' },
+    { value: 'legal_page', label: 'Privacy or terms page' },
     { value: 'services_overview', label: 'Services overview' },
     { value: 'service_social_media', label: 'Social media service page' },
     { value: 'service_seo', label: 'SEO service page' },

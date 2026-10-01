@@ -8,9 +8,11 @@ export const controllers = {
   AdminMarketing: () => import('#controllers/admin_marketing_controller'),
   AdminSearch: () => import('#controllers/admin_search_controller'),
   AdminWhatsappIntents: () => import('#controllers/admin_whatsapp_intents_controller'),
+  CrawlerFiles: () => import('#controllers/crawler_files_controller'),
   DemoRequests: () => import('#controllers/demo_requests_controller'),
   MarketingEvents: () => import('#controllers/marketing_events_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Session: () => import('#controllers/session_controller'),
+  TrackingPreference: () => import('#controllers/tracking_preference_controller'),
   WhatsappRedirect: () => import('#controllers/whatsapp_redirect_controller'),
 }

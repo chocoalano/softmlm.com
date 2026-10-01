@@ -168,6 +168,8 @@ export default {
       bookDemo: 'Book a demo',
       servicesOverview: 'All services',
     },
+    privacy: 'Privacy',
+    terms: 'Terms',
     staffLogin: 'Staff login',
     backToTop: 'Back to top',
   },
@@ -313,6 +315,7 @@ export default {
       sending: 'Sending…',
       consent:
         "By sending this form you agree that mlmsoft may use these details to contact you about your request. We don't add you to a mailing list.",
+      privacyLink: 'How we handle your data',
     },
   },
 

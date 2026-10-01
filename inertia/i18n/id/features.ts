@@ -11,7 +11,7 @@ const features: typeof en = {
     considerEyebrow: 'Sebelum implementasi',
     considerTitle: 'Yang perlu dipertimbangkan sebelum implementasi.',
     considerLead:
-      'Semua ini kami bahas bersama Anda di tahap discovery. Anda tidak perlu punya jawaban teknis sejak hari pertama.',
+      'Semua ini kami bahas bersama Anda di tahap memahami bisnis. Anda tidak perlu punya jawaban teknis sejak hari pertama.',
     faqLead: 'Jawaban apa adanya, termasuk hal yang bergantung pada cakupan implementasi.',
     askWhatsapp: 'Tanyakan lewat WhatsApp',
     orBookDemo: 'Atau jadwalkan demo',
@@ -74,7 +74,7 @@ const features: typeof en = {
       integrations: {
         label: 'Integrasi',
         problem: 'Sistem yang sudah digunakan perlu memiliki alur data yang jelas.',
-        text: 'Payment, logistik, finance dan messaging dipetakan sebagai alur data sebelum apa pun dihubungkan.',
+        text: 'Pembayaran, logistik, finance dan messaging dipetakan sebagai alur data sebelum apa pun dihubungkan.',
       },
       ecommerce: {
         label: 'Ecommerce',
@@ -157,7 +157,7 @@ const features: typeof en = {
             text: 'Indikator yang menunjukkan di mana perlu bertindak.',
           },
         ],
-        note: 'Tampilan dan indikator apa saja yang masuk dalam implementasi Anda disepakati di tahap discovery.',
+        note: 'Tampilan dan indikator apa saja yang masuk dalam implementasi Anda disepakati di tahap memahami bisnis.',
       },
       concept: {
         eyebrow: 'Konsep tampilan',
@@ -231,7 +231,7 @@ const features: typeof en = {
         items: [
           {
             q: 'Apakah genealogi yang sudah ada bisa dipakai?',
-            a: 'Biasanya bisa. Seberapa lengkap dan konsisten datanya menentukan cara migrasinya, dan itu kami nilai di tahap discovery.',
+            a: 'Biasanya bisa. Seberapa lengkap dan konsisten datanya menentukan cara migrasinya, dan itu kami nilai di tahap memahami bisnis.',
           },
           {
             q: 'Struktur jaringan apa saja yang bisa didiskusikan?',
@@ -311,7 +311,7 @@ const features: typeof en = {
             text: 'Pengiriman, retur dan informasi untuk member.',
           },
         ],
-        note: 'Apakah langkah yang berkaitan dengan bonus dijalankan sistem dalam implementasi Anda disepakati di tahap discovery; kami tidak mengasumsikannya.',
+        note: 'Apakah langkah yang berkaitan dengan bonus dijalankan sistem dalam implementasi Anda disepakati di tahap memahami bisnis; kami tidak mengasumsikannya.',
       },
       concept: {
         eyebrow: 'Konsep tampilan',
@@ -395,7 +395,7 @@ const features: typeof en = {
           },
           {
             q: 'Payment provider apa yang bisa dipakai?',
-            a: 'Beri tahu kami provider yang Anda pakai. Pilihan integrasinya kami nilai di tahap discovery.',
+            a: 'Beri tahu kami provider yang Anda pakai. Pilihan integrasinya kami nilai di tahap memahami bisnis.',
           },
           {
             q: 'Apa yang terjadi pada bonus kalau order diretur?',
@@ -471,7 +471,7 @@ const features: typeof en = {
           },
           { title: 'Payout', text: 'Bagaimana dan kapan dana sampai ke member.' },
         ],
-        note: 'Tarif pajak tetap ditentukan konsultan pajak Anda. Langkah mana yang dijalankan sistem dalam implementasi Anda disepakati di tahap discovery.',
+        note: 'Tarif pajak tetap ditentukan konsultan pajak Anda. Langkah mana yang dijalankan sistem dalam implementasi Anda disepakati di tahap memahami bisnis.',
       },
       concept: {
         eyebrow: 'Konsep tampilan',
@@ -555,7 +555,7 @@ const features: typeof en = {
           },
           {
             q: 'Bagaimana dengan saldo di sistem kami yang sekarang?',
-            a: 'Saldo awal baru dipindahkan setelah cocok dengan catatan Anda. Apa saja yang bisa dimigrasikan kami nilai di tahap discovery.',
+            a: 'Saldo awal baru dipindahkan setelah cocok dengan catatan Anda. Apa saja yang bisa dimigrasikan kami nilai di tahap memahami bisnis.',
           },
         ],
       },

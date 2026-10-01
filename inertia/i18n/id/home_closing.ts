@@ -148,7 +148,7 @@ const homeClosing: typeof en = {
       },
       {
         q: 'Siapa yang mengurus integrasi pembayaran?',
-        a: 'Payment gateway, bank dan logistik dibahas bersama tim Anda di tahap discovery, termasuk siapa mengerjakan apa.',
+        a: 'Payment gateway, bank dan logistik dibahas bersama tim Anda di tahap memahami bisnis, termasuk siapa mengerjakan apa.',
       },
     ],
     phases: [
@@ -289,7 +289,7 @@ const homeClosing: typeof en = {
       },
       {
         title: 'Backup & pemulihan',
-        text: 'Ekspektasi pemulihan, disepakati dan diuji sebelum production.',
+        text: 'Target pemulihan disepakati dan diuji sebelum go-live.',
       },
     ],
   },
@@ -334,11 +334,11 @@ const homeClosing: typeof en = {
       },
       {
         q: 'Berapa lama proses implementasinya?',
-        a: 'Tergantung kerumitan plan Anda, kebutuhan integrasi dan seberapa banyak data yang perlu dipindahkan. Setelah tahap discovery, kami memberikan jadwal tertulis, jadi Anda tahu apa yang dikerjakan dan kapan sebelum memutuskan.',
+        a: 'Tergantung kerumitan plan Anda, kebutuhan integrasi dan seberapa banyak data yang perlu dipindahkan. Setelah tahap memahami bisnis, kami memberikan jadwal tertulis, jadi Anda tahu apa yang dikerjakan dan kapan sebelum memutuskan.',
       },
       {
         q: 'Bisakah kami pindah dari sistem yang sekarang?',
-        a: 'Umumnya bisa. Member dan genealogi dipindahkan lebih dulu; saldo dan riwayat menyusul setelah angkanya cocok dengan sistem Anda saat ini. Data apa saja yang bisa dimigrasikan dinilai di tahap discovery.',
+        a: 'Umumnya bisa. Member dan genealogi dipindahkan lebih dulu; saldo dan riwayat menyusul setelah angkanya cocok dengan sistem Anda saat ini. Data apa saja yang bisa dimigrasikan dinilai di tahap memahami bisnis.',
       },
       {
         q: 'Apakah kami perlu toko online terpisah?',
@@ -358,7 +358,7 @@ const homeClosing: typeof en = {
       },
       {
         q: 'Bisakah terhubung ke payment gateway atau sistem kami yang lain?',
-        a: 'Ceritakan apa yang Anda pakai. Payment gateway, bank, logistik, akuntansi dan messaging dibahas di tahap discovery, dan opsi integrasi untuk tim IT Anda menjadi bagian dari diskusi teknis.',
+        a: 'Ceritakan apa yang Anda pakai. Payment gateway, bank, logistik, akuntansi dan messaging dibahas di tahap memahami bisnis, dan opsi integrasi untuk tim IT Anda menjadi bagian dari diskusi teknis.',
       },
     ],
   },

@@ -293,9 +293,10 @@ timezone.
     work as usual, with no console errors (tested and checked in a
     browser).
   - Global Privacy Control (`Sec-GPC: 1`): the visitor is not tracked.
-  - Opt-out cookie `mlmsoft_tracking=off`: the visitor is not tracked. Meant
-    for the privacy notice / consent control, not built yet (production
-    blocker #16).
+  - Opt-out cookie `mlmsoft_tracking=off`: the visitor is not tracked. Set by
+    the analytics switch on the Privacy Notice (`/en/privacy#choices`,
+    `POST /privacy/tracking`, Phase 12B): turning it off also drops the
+    visitor and visit cookies; turning it back on clears the opt-out cookie.
 - **Bots:** obvious crawlers, link previewers (including WhatsApp's), uptime
   monitors, scripts and headless browsers are not tracked.
 - **Internal traffic:** not excluded yet. Office IPs are deliberately not

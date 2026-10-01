@@ -25,7 +25,7 @@ const links = computed(() => [
 </script>
 
 <template>
-  <MarketingLayout page="not_found" context="general">
+  <MarketingLayout page="not_found" context="general" lead-mode="home">
     <Head :title="t.notFound.title">
       <meta head-key="robots" name="robots" content="noindex" />
     </Head>

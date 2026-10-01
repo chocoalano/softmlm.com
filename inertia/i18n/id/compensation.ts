@@ -4,7 +4,7 @@ const compensation: typeof en = {
   units: {
     thousand: 'rb',
     million: 'jt',
-    billion: 'M',
+    billion: ' miliar',
     decimal: ',',
   },
 

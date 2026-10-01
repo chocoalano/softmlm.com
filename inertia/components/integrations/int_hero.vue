@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { vReveal } from '~/composables/reveal'
+import SiteBreadcrumbs from '~/components/site/breadcrumbs.vue'
 import MarketingWhatsappCta from '~/components/site/marketing_whatsapp_cta.vue'
 import IntegrationMap from '~/components/integrations/integration_map.vue'
 import { INTEGRATIONS_TRACKING_PAGE } from '@shared/integrations'
@@ -13,6 +14,7 @@ const t = useCopy('integrations')
     <div class="nhero__bg" aria-hidden="true" />
     <div class="sm-container nhero__grid">
       <div class="nhero__copy">
+        <SiteBreadcrumbs v-reveal />
         <span v-reveal class="sm-eyebrow">{{ t.hero.eyebrow }}</span>
         <h1 id="nhero-title" v-reveal="60" class="sm-h1 nhero__title">
           {{ t.hero.title }} <span class="sm-grad">{{ t.hero.highlight }}</span>

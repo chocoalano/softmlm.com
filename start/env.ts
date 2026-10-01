@@ -108,4 +108,12 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   BUSINESS_TIMEZONE: Env.schema.string.optional(),
+
+  /*
+  |----------------------------------------------------------
+  | Search engines (config/seo.ts). Unset in production; set to
+  | false on staging so nothing there is indexed.
+  |----------------------------------------------------------
+  */
+  SEARCH_INDEXING_ENABLED: Env.schema.boolean.optional(),
 })

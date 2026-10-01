@@ -5,6 +5,8 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'home': { paramsTuple?: []; params?: {} }
+    'robots': { paramsTuple?: []; params?: {} }
+    'sitemap': { paramsTuple?: []; params?: {} }
     'marketing.home': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.compensation_plans': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.pricing': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -17,6 +19,8 @@ export type ScannedRoutes = {
     'marketing.how_we_do_it': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.integrations': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.security': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.privacy': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.terms': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.social_media': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.seo': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -30,6 +34,7 @@ export type ScannedRoutes = {
     'marketing.not_found': { paramsTuple: [ParamValue,...ParamValue[]]; params: {'locale': ParamValue,'*': ParamValue[]} }
     'demo_requests.store': { paramsTuple?: []; params?: {} }
     'marketing.events.store': { paramsTuple?: []; params?: {} }
+    'tracking_preference.update': { paramsTuple?: []; params?: {} }
     'whatsapp.redirect': { paramsTuple: [ParamValue]; params: {'context': ParamValue} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
@@ -54,6 +59,8 @@ export type ScannedRoutes = {
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
+    'robots': { paramsTuple?: []; params?: {} }
+    'sitemap': { paramsTuple?: []; params?: {} }
     'marketing.home': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.compensation_plans': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.pricing': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -66,6 +73,8 @@ export type ScannedRoutes = {
     'marketing.how_we_do_it': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.integrations': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.security': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.privacy': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.terms': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.social_media': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.seo': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -92,6 +101,8 @@ export type ScannedRoutes = {
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
+    'robots': { paramsTuple?: []; params?: {} }
+    'sitemap': { paramsTuple?: []; params?: {} }
     'marketing.home': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.compensation_plans': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.pricing': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -104,6 +115,8 @@ export type ScannedRoutes = {
     'marketing.how_we_do_it': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.integrations': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.security': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.privacy': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
+    'marketing.terms': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.social_media': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
     'marketing.services.seo': { paramsTuple: [ParamValue]; params: {'locale': ParamValue} }
@@ -131,6 +144,7 @@ export type ScannedRoutes = {
   POST: {
     'demo_requests.store': { paramsTuple?: []; params?: {} }
     'marketing.events.store': { paramsTuple?: []; params?: {} }
+    'tracking_preference.update': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }

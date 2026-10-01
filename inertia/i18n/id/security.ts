@@ -198,7 +198,7 @@ const security: typeof en = {
   infrastructure: {
     eyebrow: 'Infrastruktur & operasional',
     title: 'Kontrol infrastruktur dipastikan sebagai bagian dari arsitektur deployment.',
-    lead: 'Di mana dan bagaimana sistem berjalan ditentukan per implementasi. Topik-topik ini disepakati secara tertulis sebelum production, bukan diasumsikan.',
+    lead: 'Di mana dan bagaimana sistem berjalan ditentukan per implementasi. Topik-topik ini disepakati secara tertulis sebelum go-live, bukan diasumsikan.',
     items: [
       { title: 'HTTPS', text: 'Koneksi terenkripsi antara browser, aplikasi dan sistem.' },
       {

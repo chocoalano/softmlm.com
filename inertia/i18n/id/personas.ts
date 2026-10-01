@@ -259,7 +259,7 @@ const roles: (typeof en)['personas'] = {
         { title: 'Payout', text: 'Bagaimana dan kapan member dibayar.' },
         { title: 'Rekonsiliasi', text: 'Komisi, wallet dan pembukuan Anda saling cocok.' },
       ],
-      note: 'Beginilah kami menyusun diskusi desain. Langkah mana yang diotomatiskan dalam implementasi Anda disepakati pada tahap discovery.',
+      note: 'Beginilah kami menyusun diskusi desain. Langkah mana yang diotomatiskan dalam implementasi Anda disepakati pada tahap memahami bisnis.',
     },
     areas: {
       title: 'Tempat topik finance dibahas.',
@@ -271,9 +271,9 @@ const roles: (typeof en)['personas'] = {
           linkLabel: 'Pelajari compensation plan',
         },
         {
-          title: 'Audit & reversal',
+          title: 'Audit & koreksi',
           text: 'Bagaimana refund dan koreksi dirancang agar meninggalkan jejak.',
-          linkLabel: 'Lihat rancangan reversal',
+          linkLabel: 'Lihat rancangan koreksi',
         },
         {
           title: 'Wallet & pajak',
@@ -330,7 +330,7 @@ const roles: (typeof en)['personas'] = {
       },
       {
         q: 'Bagaimana dengan data komisi historis kami?',
-        a: 'Data apa yang bisa dimigrasikan, dan bagaimana data itu dicocokkan dengan catatan Anda saat ini, dinilai pada tahap discovery.',
+        a: 'Data apa yang bisa dimigrasikan, dan bagaimana data itu dicocokkan dengan catatan Anda saat ini, dinilai pada tahap memahami bisnis.',
       },
       {
         q: 'Bagaimana data sampai ke sistem akuntansi kami?',
@@ -501,7 +501,7 @@ const roles: (typeof en)['personas'] = {
       },
       {
         q: 'Bagaimana dengan data member dari sistem kami saat ini?',
-        a: 'Data member dan genealogi biasanya didahulukan. Apa yang bisa dimigrasikan, dan bagaimana pengecekannya, dinilai pada tahap discovery.',
+        a: 'Data member dan genealogi biasanya didahulukan. Apa yang bisa dimigrasikan, dan bagaimana pengecekannya, dinilai pada tahap memahami bisnis.',
       },
       {
         q: 'Bisakah tim support dan operasional punya akses yang berbeda?',
@@ -660,7 +660,7 @@ const roles: (typeof en)['personas'] = {
       },
       {
         q: 'Di mana sistem akan di-hosting?',
-        a: 'Tanggung jawab hosting dan operasional disepakati pada tahap discovery, berdasarkan kebutuhan Anda.',
+        a: 'Tanggung jawab hosting dan operasional disepakati pada tahap memahami bisnis, berdasarkan kebutuhan Anda.',
       },
       {
         q: 'Bagaimana migrasi data dicek?',

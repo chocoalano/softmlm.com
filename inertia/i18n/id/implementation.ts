@@ -10,7 +10,7 @@ const implementation: typeof en = {
     eyebrow: 'Dari aturan bisnis menjadi sistem yang terstruktur',
     title: 'Kami pahami cara bisnis Anda berjalan',
     highlight: 'sebelum sistem mulai dibangun.',
-    lead: 'Compensation plan, perjalanan member, alur penjualan, dan aturan operasional dipetakan terlebih dahulu agar scope implementasi, pengujian, dan proses go-live menjadi lebih jelas.',
+    lead: 'Compensation plan, perjalanan member, alur penjualan, dan aturan operasional dipetakan terlebih dahulu agar cakupan implementasi, pengujian, dan proses go-live menjadi lebih jelas.',
     cta: 'Konsultasikan Proyek Anda',
     canvas: {
       label: 'Blueprint implementasi, disusun dalam enam lapisan',
@@ -440,7 +440,7 @@ const implementation: typeof en = {
         a: 'Tidak harus, tetapi orang yang memahami sistem dan data Anda saat ini sangat membantu, terutama untuk integrasi dan migrasi. Jika belum ada tim IT, pembagian tanggung jawabnya dibahas di tahap memahami bisnis.',
       },
       {
-        q: 'Apa yang terjadi sebelum development dimulai?',
+        q: 'Apa yang terjadi sebelum pengembangan dimulai?',
         a: 'Tahap memahami bisnis dan penyusunan blueprint. Alur bisnis, aturan kompensasi, data dan integrasi dipetakan dan ditinjau bersama tim Anda, lalu pembagian antara konfigurasi dan pengembangan khusus disepakati.',
       },
       {

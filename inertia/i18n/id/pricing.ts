@@ -93,15 +93,15 @@ const pricing: typeof en = {
     steps: {
       eyebrow: 'Implementasi',
       title: 'Seperti apa tahapan implementasinya?',
-      lead: 'Setiap proyek melalui delapan tahap yang sama. Lama tiap tahap bergantung pada cakupan kebutuhan Anda; jadwal tertulis kami berikan setelah tahap discovery.',
+      lead: 'Setiap proyek melalui delapan tahap yang sama. Lama tiap tahap bergantung pada cakupan kebutuhan Anda; jadwal tertulis kami berikan setelah tahap memahami bisnis.',
       cta: 'Diskusikan implementasi',
       items: {
         discovery: {
-          title: 'Discovery',
+          title: 'Pahami Bisnis',
           text: 'Memahami model bisnis dan tujuan Anda.',
         },
         mapping: {
-          title: 'Pemetaan bisnis',
+          title: 'Blueprint Sistem',
           text: 'Compensation plan dan alur kerja Anda ditulis dan disepakati bersama.',
         },
         configuration: {
@@ -121,11 +121,11 @@ const pricing: typeof en = {
           text: 'Hasil perhitungan dicocokkan dengan angka Anda.',
         },
         training: {
-          title: 'Pelatihan',
+          title: 'Training',
           text: 'Tim Anda siap menjalankan operasional sehari-hari.',
         },
         launch: {
-          title: 'Go-live',
+          title: 'Go-Live',
           text: 'Peluncuran yang terencana, didampingi tim kami.',
         },
       },
@@ -150,7 +150,7 @@ const pricing: typeof en = {
       },
       {
         q: 'Apakah sistem kami saat ini bisa dimigrasikan?',
-        a: 'Sering kali bisa. Apa yang bisa dimigrasikan, dan bagaimana caranya, bergantung pada sistem dan data Anda saat ini. Kami menilainya pada tahap discovery.',
+        a: 'Sering kali bisa. Apa yang bisa dimigrasikan, dan bagaimana caranya, bergantung pada sistem dan data Anda saat ini. Kami menilainya pada tahap memahami bisnis.',
       },
       {
         q: 'Apakah compensation plan custom bisa didiskusikan?',

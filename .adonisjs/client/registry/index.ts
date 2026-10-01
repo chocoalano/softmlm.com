@@ -12,6 +12,18 @@ const routes = {
     tokens: [{"old":"/","type":0,"val":"/","end":""}],
     types: placeholder as Registry['home']['types'],
   },
+  'robots': {
+    methods: ["GET","HEAD"],
+    pattern: '/robots.txt',
+    tokens: [{"old":"/robots.txt","type":0,"val":"robots.txt","end":""}],
+    types: placeholder as Registry['robots']['types'],
+  },
+  'sitemap': {
+    methods: ["GET","HEAD"],
+    pattern: '/sitemap.xml',
+    tokens: [{"old":"/sitemap.xml","type":0,"val":"sitemap.xml","end":""}],
+    types: placeholder as Registry['sitemap']['types'],
+  },
   'marketing.home': {
     methods: ["GET","HEAD"],
     pattern: '/:locale',
@@ -83,6 +95,18 @@ const routes = {
     pattern: '/:locale/security',
     tokens: [{"old":"/:locale/security","type":1,"val":"locale","end":""},{"old":"/:locale/security","type":0,"val":"security","end":""}],
     types: placeholder as Registry['marketing.security']['types'],
+  },
+  'marketing.privacy': {
+    methods: ["GET","HEAD"],
+    pattern: '/:locale/privacy',
+    tokens: [{"old":"/:locale/privacy","type":1,"val":"locale","end":""},{"old":"/:locale/privacy","type":0,"val":"privacy","end":""}],
+    types: placeholder as Registry['marketing.privacy']['types'],
+  },
+  'marketing.terms': {
+    methods: ["GET","HEAD"],
+    pattern: '/:locale/terms',
+    tokens: [{"old":"/:locale/terms","type":1,"val":"locale","end":""},{"old":"/:locale/terms","type":0,"val":"terms","end":""}],
+    types: placeholder as Registry['marketing.terms']['types'],
   },
   'marketing.services': {
     methods: ["GET","HEAD"],
@@ -161,6 +185,12 @@ const routes = {
     pattern: '/marketing/events',
     tokens: [{"old":"/marketing/events","type":0,"val":"marketing","end":""},{"old":"/marketing/events","type":0,"val":"events","end":""}],
     types: placeholder as Registry['marketing.events.store']['types'],
+  },
+  'tracking_preference.update': {
+    methods: ["POST"],
+    pattern: '/privacy/tracking',
+    tokens: [{"old":"/privacy/tracking","type":0,"val":"privacy","end":""},{"old":"/privacy/tracking","type":0,"val":"tracking","end":""}],
+    types: placeholder as Registry['tracking_preference.update']['types'],
   },
   'whatsapp.redirect': {
     methods: ["GET","HEAD"],

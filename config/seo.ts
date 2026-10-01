@@ -5,6 +5,7 @@ import { FEATURES_PATH, featurePath, features, type FeatureKey } from '#shared/f
 import { HOW_WE_DO_IT_PATH } from '#shared/implementation'
 import { INTEGRATIONS_PATH } from '#shared/integrations'
 import { SECURITY_PATH } from '#shared/security'
+import { PRIVACY_PATH, TERMS_PATH } from '#shared/legal'
 import { SERVICES_PATH, servicePath, services, type ServiceKey } from '#shared/services'
 import { DEFAULT_LOCALE, LOCALES, localizePath, type Locale } from '#shared/locales'
 
@@ -173,13 +174,13 @@ export const marketingPages = {
     },
     description: {
       en: 'MLM software built around your business. mlmsoft maps your members, network, compensation plan, orders and payouts, then designs the system around them.',
-      id: 'Software MLM yang dirancang mengikuti bisnis Anda. mlmsoft memetakan member, jaringan, compensation plan, order dan payout, lalu merancang sistem di sekitarnya.',
+      id: 'Software MLM yang dirancang mengikuti bisnis Anda. mlmsoft memetakan member, jaringan, compensation plan, order dan payout, lalu merancang sistemnya.',
     },
   },
   compensation_plans: {
     path: '/compensation-plans',
     title: {
-      en: 'Compensation Plans',
+      en: 'MLM Compensation Plans & Bonus Structures',
       id: 'Compensation Plan & Sistem Bonus MLM',
     },
     description: {
@@ -190,7 +191,7 @@ export const marketingPages = {
   pricing: {
     path: '/pricing',
     title: {
-      en: 'Pricing',
+      en: 'MLM Software Pricing',
       id: 'Harga Software MLM',
     },
     description: {
@@ -228,7 +229,7 @@ export const marketingPages = {
     },
     description: {
       en: 'How MLM software fits with the payment, logistics, finance, messaging and business systems you already use, mapped during integration discovery.',
-      id: 'Cara sistem MLM bekerja bersama payment, logistik, finance, messaging dan sistem bisnis yang sudah Anda gunakan, dipetakan saat discovery integrasi.',
+      id: 'Cara sistem MLM terhubung dengan pembayaran, logistik, finance, messaging dan sistem bisnis yang sudah Anda gunakan, dipetakan sebelum integrasi dibangun.',
     },
   },
   security: {
@@ -240,6 +241,28 @@ export const marketingPages = {
     description: {
       en: 'How access, data, integrations, audit history and infrastructure requirements are clarified before an MLM software implementation, and what we verify today.',
       id: 'Cara kebutuhan akses, data, integrasi, riwayat audit dan infrastruktur diperjelas sebelum implementasi software MLM, serta apa yang sudah kami verifikasi.',
+    },
+  },
+  privacy: {
+    path: PRIVACY_PATH,
+    title: {
+      en: 'Privacy Notice',
+      id: 'Kebijakan Privasi',
+    },
+    description: {
+      en: 'What this website collects when you browse or contact us, including first-party analytics and WhatsApp references, and how to turn analytics off.',
+      id: 'Data yang dikumpulkan website ini saat Anda menjelajah atau menghubungi kami, termasuk analitik first-party dan referensi WhatsApp, serta cara menonaktifkannya.',
+    },
+  },
+  terms: {
+    path: TERMS_PATH,
+    title: {
+      en: 'Terms of Use',
+      id: 'Syarat Penggunaan',
+    },
+    description: {
+      en: 'The terms for using this website: general information only, consultation requests, intellectual property, acceptable use and limits of liability.',
+      id: 'Syarat penggunaan website ini: informasi umum, permintaan konsultasi, hak kekayaan intelektual, penggunaan yang wajar, dan batasan tanggung jawab.',
     },
   },
   services: {
@@ -288,20 +311,157 @@ export type MarketingPageKey = keyof typeof marketingPages
 
 export type SeoAlternate = { hreflang: string; href: string }
 
+export type SeoBreadcrumb = { name: string; url: string }
+
+/** JSON only: the `seo` prop travels to the page (Inertia props must be JSON). */
+type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
+export type StructuredData = { [key: string]: JsonValue }
+
 export type SeoMeta = {
   locale: Locale
   title: string
   description: string
   canonical: string
   alternates: SeoAlternate[]
+  /** Open Graph and X (Twitter) card: the page's own title, description and URL. */
+  social: {
+    siteName: string
+    locale: string
+    alternateLocales: string[]
+    image: { url: string; width: number; height: number; alt: string }
+  }
+  /** The trail shown above a nested page; empty for top-level pages. */
+  breadcrumbs: SeoBreadcrumb[]
+  /** schema.org JSON-LD, built only from verified facts (docs/seo-indexability.md). */
+  structuredData: StructuredData[]
+}
+
+/**
+ * Whether search engines may index this deployment. Production leaves it
+ * unset; staging sets SEARCH_INDEXING_ENABLED=false, which makes every
+ * response noindex and robots.txt disallow everything. Read at request
+ * time (an object, so tests can switch it).
+ */
+export const searchEngines = { indexing: env.get('SEARCH_INDEXING_ENABLED', true) }
+
+const OG_LOCALES: Record<Locale, string> = { en: 'en_US', id: 'id_ID' }
+
+/**
+ * One branded social card per language (public/og/social-card-<locale>.jpg),
+ * rendered from this copy and the brand name by `node ace og:image`: run it
+ * again whenever either changes. A brand card, not a product screenshot:
+ * the pages use conceptual visuals.
+ */
+export const SOCIAL_CARD = {
+  width: 1200,
+  height: 630,
+  path: (locale: Locale) => `/og/social-card-${locale}.jpg`,
+  headline: {
+    en: 'MLM & direct selling software, shaped around your business',
+    id: 'Software MLM & direct selling yang mengikuti cara bisnis Anda',
+  } satisfies Localized,
+  topics: {
+    en: 'Software · Implementation · Integrations · Growth services',
+    id: 'Software · Implementasi · Integrasi · Layanan pendukung bisnis',
+  } satisfies Localized,
+  alt: {
+    en: `${SITE_NAME}: MLM and direct selling software, implementation, integrations and growth services`,
+    id: `${SITE_NAME}: software MLM dan direct selling, implementasi, integrasi, serta layanan pendukung bisnis`,
+  } satisfies Localized,
+}
+
+/**
+ * Breadcrumbs of the nested pages: shown on the page and published as
+ * BreadcrumbList structured data from the same list, so both always match.
+ * Names are the navigation labels. Integrations sits under Features, as in
+ * the navigation; top-level pages have no trail.
+ */
+const breadcrumbParents: Partial<Record<MarketingPageKey, MarketingPageKey>> = {
+  integrations: 'features',
+  ...Object.fromEntries(features.map((feature) => [`features.${feature.key}`, 'features'])),
+  ...Object.fromEntries(services.map((service) => [`services.${service.key}`, 'services'])),
+  ...Object.fromEntries(personas.map((persona) => [`who_we_serve.${persona.key}`, 'who_we_serve'])),
+}
+
+export const breadcrumbNames: Partial<Record<MarketingPageKey, Localized>> = {
+  'home': { en: 'Home', id: 'Beranda' },
+  'features': { en: 'Features', id: 'Fitur' },
+  'features.network': { en: 'Network Management', id: 'Manajemen Jaringan' },
+  'features.ecommerce': { en: 'Ecommerce', id: 'Ecommerce' },
+  'features.wallet': { en: 'Wallet & Payout', id: 'Wallet & Payout' },
+  'integrations': { en: 'Integrations', id: 'Integrasi' },
+  'services': { en: 'Services', id: 'Layanan' },
+  'services.social_media': { en: 'Social Media Management', id: 'Pengelolaan Media Sosial' },
+  'services.seo': { en: 'SEO & Content', id: 'SEO & Konten' },
+  'services.paid_advertising': { en: 'Paid Advertising', id: 'Iklan Digital' },
+  'services.branding': { en: 'Branding & Creative', id: 'Branding & Kreatif' },
+  'services.product_maklon': {
+    en: 'Product Development / Maklon',
+    id: 'Pengembangan & Maklon Produk',
+  },
+  'who_we_serve': { en: 'Who We Serve', id: 'Untuk Siapa' },
+  'who_we_serve.executives': { en: 'Owners & Executives', id: 'Owner & Eksekutif' },
+  'who_we_serve.finance': { en: 'Finance', id: 'Finance' },
+  'who_we_serve.operations': { en: 'Operations', id: 'Operasional' },
+  'who_we_serve.it': { en: 'IT Teams', id: 'Tim IT' },
+  'who_we_serve.distributors': { en: 'Distributor Experience', id: 'Pengalaman Distributor' },
 }
 
 export function absoluteUrl(path: string) {
   return new URL(path, env.get('APP_URL')).href
 }
 
+function pageUrl(key: MarketingPageKey, locale: Locale) {
+  return absoluteUrl(localizePath(marketingPages[key].path, locale))
+}
+
+export function breadcrumbsFor(key: MarketingPageKey, locale: Locale): SeoBreadcrumb[] {
+  if (!breadcrumbParents[key]) return []
+  const trail: MarketingPageKey[] = [key]
+  let parent: MarketingPageKey | undefined = breadcrumbParents[key]
+  while (parent) {
+    trail.unshift(parent)
+    parent = breadcrumbParents[parent]
+  }
+  trail.unshift('home')
+  return trail.map((step) => ({ name: breadcrumbNames[step]![locale], url: pageUrl(step, locale) }))
+}
+
+/**
+ * Structured data the site can stand behind today: WebSite on the home
+ * page and BreadcrumbList on nested pages. Organization, FAQPage and
+ * SoftwareApplication are deliberately not published
+ * (docs/seo-indexability.md).
+ */
+function structuredDataFor(key: MarketingPageKey, locale: Locale, breadcrumbs: SeoBreadcrumb[]) {
+  const data: StructuredData[] = []
+  if (key === 'home') {
+    data.push({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      'name': SITE_NAME,
+      'url': pageUrl('home', locale),
+      'inLanguage': locale,
+    })
+  }
+  if (breadcrumbs.length) {
+    data.push({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': breadcrumbs.map((crumb, index) => ({
+        '@type': 'ListItem',
+        'position': index + 1,
+        'name': crumb.name,
+        'item': crumb.url,
+      })),
+    })
+  }
+  return data
+}
+
 export function seoFor(key: MarketingPageKey, locale: Locale): SeoMeta {
   const { path, title, description } = marketingPages[key]
+  const breadcrumbs = breadcrumbsFor(key, locale)
   return {
     locale,
     title: title[locale],
@@ -314,5 +474,20 @@ export function seoFor(key: MarketingPageKey, locale: Locale): SeoMeta {
       })),
       { hreflang: 'x-default', href: absoluteUrl(localizePath(path, DEFAULT_LOCALE)) },
     ],
+    social: {
+      siteName: SITE_NAME,
+      locale: OG_LOCALES[locale],
+      alternateLocales: LOCALES.filter((other) => other !== locale).map(
+        (other) => OG_LOCALES[other]
+      ),
+      image: {
+        url: absoluteUrl(SOCIAL_CARD.path(locale)),
+        width: SOCIAL_CARD.width,
+        height: SOCIAL_CARD.height,
+        alt: SOCIAL_CARD.alt[locale],
+      },
+    },
+    breadcrumbs,
+    structuredData: structuredDataFor(key, locale, breadcrumbs),
   }
 }

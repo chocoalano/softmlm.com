@@ -53,7 +53,7 @@ build contains no `.env`.
 | `TZ` | `UTC` (the database stores UTC) |
 | `LOG_LEVEL` | `info` |
 | `APP_KEY` | generated once (`node ace generate:key --show`), never rotated casually: it signs sessions and encrypts cookies |
-| `APP_URL` | the canonical https origin; canonicals, hreflang and email links are built from it (blocker #12) |
+| `APP_URL` | the canonical https origin; canonicals, hreflang, the sitemap, robots.txt, social cards and email links are built from it (blocker #12) |
 | `DB_CONNECTION` | `mysql` |
 | `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE` | the hPanel MySQL database |
 | `SESSION_DRIVER` | `database` |
@@ -68,6 +68,7 @@ build contains no `.env`.
 | `MARKETING_REFERENCE_EXPIRY_DAYS` | optional, default `30` |
 | `BUSINESS_TIMEZONE` | optional, default `Asia/Jakarta` |
 | `PUBLIC_SIGNUP_ENABLED` | leave unset (off in production) |
+| `SEARCH_INDEXING_ENABLED` | leave unset in production; `false` on staging (every page noindex, robots.txt disallows all) |
 | `NPM_CONFIG_INCLUDE` | only if the build log shows missing devDependencies: `dev` |
 
 `PORT` and `HOST` are not needed: under lsnode.js the app listens on the
@@ -110,21 +111,30 @@ Replace the domain if needed. Use QA identities clearly marked as QA
    `/.env`.
 2. **Pages** answer 200 with a `Content-Security-Policy` header: `/en`,
    `/id`, `/en/pricing`, `/id/pricing`, `/en/compensation-plans`,
-   `/en/how-we-do-it`, `/en/services`, `/en/integrations`, `/en/security`.
-   An unknown path answers 404.
-3. **Assets**: JS, CSS, fonts, favicon and logo load; the page source has
-   no `localhost`, `:3333`, `:3334` or Vite dev-server URL.
-4. **SEO**: canonicals and hreflang use the production domain.
-5. **Forms**: the consultation form and the demo form create a lead in the
+   `/en/how-we-do-it`, `/en/services`, `/en/integrations`, `/en/security`,
+   `/en/privacy`, `/id/privacy`, `/en/terms`, `/id/terms`. An unknown path
+   answers 404 with `X-Robots-Tag: noindex`.
+3. **Assets**: JS, CSS, fonts, favicon, logo and `/og/social-card-en.jpg`
+   load; the page source has no `localhost`, `:3333`, `:3334` or Vite
+   dev-server URL.
+4. **SEO**: `/robots.txt` names `https://<domain>/sitemap.xml`;
+   `/sitemap.xml` lists only production-domain URLs; canonicals, hreflang
+   and `og:url` use the production domain; marketing pages carry no
+   `X-Robots-Tag`, `/login` carries `noindex` (`docs/seo-indexability.md`).
+   Check one page with a link-preview tool (WhatsApp or a social debugger).
+5. **Privacy**: the analytics switch on `/en/privacy#choices` turns
+   analytics off and back on; the footer and the forms link to the Privacy
+   Notice.
+6. **Forms**: the consultation form and the demo form create a lead in the
    back office; the sales inbox receives the notification and the visitor
    the confirmation (blocker #5).
-6. **WhatsApp**: with a number configured, the button opens `wa.me` with
+7. **WhatsApp**: with a number configured, the button opens `wa.me` with
    the right number, the EN/ID message and a reference; without one, the
    button falls back to the form.
-7. **Back office**: login, an authorised page, logout; the previous
+8. **Back office**: login, an authorised page, logout; the previous
    session no longer opens the back office; a `marketing` user cannot open
    leads.
-8. **Runtime logs** in hPanel show no errors.
+9. **Runtime logs** in hPanel show no errors.
 
 ## Rollback
 
