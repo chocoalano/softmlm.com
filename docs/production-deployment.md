@@ -24,7 +24,7 @@ to back out. Background on the build output and the environment lives in
 | Root directory | empty (folder with `package.json`) | |
 | Build command | `npm run build:hostinger` | `node ace build`, then migrations (below) |
 | Output directory | `build/public` | With `build`, `/package.json`, `/config/app.js`, `/start/env.js` and `/bin/server.js` were publicly downloadable on mlmsofts.com (2026-10-01) |
-| Entry file | `server.cjs` | Hostinger's lsnode.js `require()`s the entry; `build/bin/server.js` (ES module, top-level await) failed with `ERR_REQUIRE_ASYNC_MODULE` → HTTP 503 (2026-10-01) |
+| Entry file | `build/bin/server.js` (or `server.cjs`) | Hostinger's lsnode.js `require()`s the entry. Node 24 can `require()` an ES module only without top-level await; the old `bin/server.ts` had it and failed with `ERR_REQUIRE_ASYNC_MODULE` → HTTP 503 (2026-10-01). `bin/server.ts` now chains its imports instead, so the compiled file loads directly; never add a top-level `await` there |
 
 On the real host the entry file is resolved **inside the output
 directory** (output `build` + entry `bin/server.js` ran `build/bin/server.js`,

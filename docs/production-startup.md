@@ -20,17 +20,19 @@ Runbook deploy lengkap (smoke test, rollback, migration) ada di
 | Root directory | kosong / `/` (folder yang berisi `package.json`) |
 | Build command | `npm run build:hostinger` |
 | Output directory | **`build/public`** (jangan `build`) |
-| Entry file | `server.cjs` |
+| Entry file | `build/bin/server.js` (atau `server.cjs`; keduanya jalan) |
 
 Penjelasan:
 
-- **Entry file `server.cjs`.** Hostinger menjalankan aplikasi lewat
-  `lsnode.js` (LiteSpeed), yang memuat entry file dengan `require()`.
-  `build/bin/server.js` adalah ES module dengan top-level await, sehingga
-  `require()` gagal dengan `ERR_REQUIRE_ASYNC_MODULE` dan situs menampilkan
-  HTTP 503. Karena itu jangan gunakan `build/bin/server.js` sebagai entry
-  file. `server.cjs` adalah wrapper CommonJS yang memuat server dengan
-  `import()`.
+- **Entry file.** Hostinger menjalankan aplikasi lewat `lsnode.js`
+  (LiteSpeed), yang memuat entry file dengan `require()`. Node 24 hanya bisa
+  me-`require()` ES module yang **tanpa top-level await**. Karena itu
+  `bin/server.ts` sengaja tidak memakai top-level await (import dirantai
+  dengan promise): `build/bin/server.js` bisa langsung dipakai sebagai entry.
+  Bukti 2026-10-01: versi lama dengan top-level await gagal dengan
+  `ERR_REQUIRE_ASYNC_MODULE` (HTTP 503) dari `…/nodejs/build/bin/server.js`.
+  Jangan tambahkan `await` di level atas `bin/server.ts`.
+  `server.cjs` (wrapper CommonJS) tetap tersedia sebagai entry alternatif.
 
   Bukti dari host (dua kali): dengan output `build` dan entry
   `bin/server.js`, Hostinger menjalankan `build/bin/server.js`. Jadi entry

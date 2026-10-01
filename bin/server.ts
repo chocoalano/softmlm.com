@@ -7,10 +7,12 @@
 | server. Either you can run this file directly or use the "serve"
 | command to run this file and monitor file changes
 |
+| No top-level await here: hosting launchers such as Hostinger's lsnode.js
+| load the entry file with require(), and Node.js can require() an ES module
+| only when it has no top-level await (otherwise ERR_REQUIRE_ASYNC_MODULE).
+| The two imports are chained as promises instead.
+|
 */
-
-await import('reflect-metadata')
-const { Ignitor, prettyPrintError } = await import('@adonisjs/core/ignitor')
 
 /**
  * URL to the application root. AdonisJS need it to resolve
@@ -29,17 +31,25 @@ const IMPORTER = (filePath: string) => {
   return import(filePath)
 }
 
-new Ignitor(APP_ROOT, { importer: IMPORTER })
-  .tap((app) => {
-    app.booting(async () => {
-      await import('#start/env')
-    })
-    app.listen('SIGTERM', () => app.terminate())
-    app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
-  })
-  .httpServer()
-  .start()
+import('reflect-metadata')
+  .then(() => import('@adonisjs/core/ignitor'))
+  .then(({ Ignitor, prettyPrintError }) =>
+    new Ignitor(APP_ROOT, { importer: IMPORTER })
+      .tap((app) => {
+        app.booting(async () => {
+          await import('#start/env')
+        })
+        app.listen('SIGTERM', () => app.terminate())
+        app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
+      })
+      .httpServer()
+      .start()
+      .catch((error) => {
+        process.exitCode = 1
+        prettyPrintError(error)
+      })
+  )
   .catch((error) => {
     process.exitCode = 1
-    prettyPrintError(error)
+    console.error(error)
   })
