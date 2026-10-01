@@ -69,10 +69,18 @@ build contains no `.env`.
 | `BUSINESS_TIMEZONE` | optional, default `Asia/Jakarta` |
 | `PUBLIC_SIGNUP_ENABLED` | leave unset (off in production) |
 | `SEARCH_INDEXING_ENABLED` | leave unset in production; `false` on staging (every page noindex, robots.txt disallows all) |
-| `NPM_CONFIG_INCLUDE` | only if the build log shows missing devDependencies: `dev` |
 
 `PORT` and `HOST` are not needed: under lsnode.js the app listens on the
 socket LiteSpeed gives it.
+
+**devDependencies.** Hostinger installs dependencies with production
+settings before the build command, which skips devDependencies, while
+`node ace build` needs them (`@poppinss/ts-exec`, `@adonisjs/tsconfig`,
+`@vitejs/plugin-vue`, TypeScript, Vite). The committed `.npmrc`
+(`include=dev`) makes npm install them anyway, also with
+`NODE_ENV=production` or `--omit=dev`. Without it the build fails with
+`ERR_MODULE_NOT_FOUND: Cannot find package '@poppinss/ts-exec'`
+(2026-10-01).
 
 ## Migrations
 

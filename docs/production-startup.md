@@ -57,12 +57,17 @@ Penjelasan:
   versi baru sebelum versi itu menerima trafik. Jika migration gagal, build
   ditandai gagal dan versi sebelumnya tetap berjalan. Risikonya dijelaskan
   di `docs/production-deployment.md` (Migration).
-- **devDependencies.** Build membutuhkan devDependencies (TypeScript, Vite,
-  assembler, `@poppinss/ts-exec`), yang dipasang Hostinger sebelum build.
-  Jika log build menampilkan `Cannot find package '@poppinss/ts-exec'` atau
-  `'@adonisjs/assembler'`, devDependencies tidak terpasang (npm
-  melewatinya saat `NODE_ENV=production`). Solusinya, tambahkan environment
-  variable `NPM_CONFIG_INCLUDE=dev`, lalu deploy ulang.
+- **devDependencies dan `.npmrc`.** Hostinger memasang dependency dengan
+  pengaturan production (`NODE_ENV=production`) sebelum build command, sehingga
+  devDependencies dilewati. Padahal `node ace build` membutuhkannya
+  (`@poppinss/ts-exec`, `@adonisjs/tsconfig`, `@vitejs/plugin-vue`,
+  TypeScript, Vite). Bukti 2026-10-01: build gagal dengan
+  `ERR_MODULE_NOT_FOUND: Cannot find package '@poppinss/ts-exec'`. File
+  `.npmrc` di root (`include=dev`) membuat npm selalu memasang
+  devDependencies, juga dengan `NODE_ENV=production` atau `--omit=dev`.
+  Jangan hapus file itu, dan jangan pindahkan alat build ke
+  `dependencies`: memindahkan satu package saja hanya menggeser error ke
+  package berikutnya.
 
 Setiap deployment dibangun di folder baru (`hbuilds/versions/{build-id}`),
 sehingga **data tidak boleh disimpan di dalam folder aplikasi**. Database
