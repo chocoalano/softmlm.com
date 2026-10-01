@@ -103,6 +103,18 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   /*
   |----------------------------------------------------------
+  | First admin account on hosts without a shell (Hostinger
+  | shared hosting): created by `node ace users:bootstrap`
+  | during `npm run build:hostinger`. Validated by the command,
+  | not here, so a typo fails the deployment, never the site.
+  |----------------------------------------------------------
+  */
+  BOOTSTRAP_ADMIN_EMAIL: Env.schema.string.optional(),
+  BOOTSTRAP_ADMIN_PASSWORD: Env.schema.secret.optional(),
+  BOOTSTRAP_ADMIN_NAME: Env.schema.string.optional(),
+
+  /*
+  |----------------------------------------------------------
   | Business timezone: how the back office shows dates and where
   | "today" starts. Timestamps stay UTC in the database.
   |----------------------------------------------------------

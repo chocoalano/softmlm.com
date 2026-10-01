@@ -74,6 +74,7 @@ build contains no `.env`.
 | `MARKETING_REFERENCE_EXPIRY_DAYS` | optional, default `30` |
 | `BUSINESS_TIMEZONE` | optional, default `Asia/Jakarta` |
 | `PUBLIC_SIGNUP_ENABLED` | leave unset (off in production) |
+| `BOOTSTRAP_ADMIN_EMAIL`, `BOOTSTRAP_ADMIN_PASSWORD`, `BOOTSTRAP_ADMIN_NAME` | only for the first deployment: creates the first admin (see Migrations); remove the password afterwards |
 | `SEARCH_INDEXING_ENABLED` | leave unset in production; `false` on staging (every page noindex, robots.txt disallows all) |
 
 `PORT` and `HOST` are not needed: under lsnode.js the app listens on the
@@ -112,8 +113,18 @@ copies `modules` into `selected_modules_snapshot` and then drops `modules`.
 It is harmless on a new database but would be a breaking change on a live
 one.
 
-To run migrations by hand instead, use build command `npm run build` and,
-over SSH from `hbuilds/current`, `node build/ace.js migration:run --force`.
+Hostinger shared hosting has no SSH for Node.js apps, so `build:hostinger`
+is the only way migrations run there: the database variables must be right
+before the deployment. On a host with a shell, `npm run build` plus
+`node build/ace.js migration:run --force` works too.
+
+**First admin account.** Also without a shell: `build:hostinger` ends with
+`node build/ace.js users:bootstrap`, which creates the first admin from
+`BOOTSTRAP_ADMIN_EMAIL` / `BOOTSTRAP_ADMIN_PASSWORD` (12+ characters) /
+`BOOTSTRAP_ADMIN_NAME`. It does nothing when they are unset or an admin
+exists, never changes an account, never prints the password, and fails the
+deployment on an invalid value. Remove the password from the panel once
+the build log shows the account was created.
 
 ## Smoke test after a deployment
 

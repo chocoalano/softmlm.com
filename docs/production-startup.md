@@ -109,18 +109,33 @@ Catatan:
   Aplikasi diuji pada MySQL; MariaDB belum diverifikasi
   (`docs/production-blockers.md` #17).
 
-### Akun staf pertama
+### Akun admin pertama (tanpa SSH)
 
-Pendaftaran publik (`/signup`) mati di production. Buat akun melalui SSH
-dari folder aplikasi yang aktif (`hbuilds/current`), dengan environment
-variable yang sama:
+Hostinger shared hosting tidak menyediakan SSH untuk aplikasi Node.js, dan
+pendaftaran publik (`/signup`) mati di production. Akun admin pertama dibuat
+otomatis oleh `npm run build:hostinger` (`node build/ace.js users:bootstrap`,
+setelah migration) dari environment variable di hPanel:
 
-```sh
-node build/ace.js users:create nama@domain-anda admin --name="Nama"
-```
+| Variabel | Isi |
+| --- | --- |
+| `BOOTSTRAP_ADMIN_EMAIL` | email admin |
+| `BOOTSTRAP_ADMIN_PASSWORD` | 12 sampai 128 karakter; tidak pernah ditampilkan di log |
+| `BOOTSTRAP_ADMIN_NAME` | opsional |
 
-Password diminta dua kali tanpa ditampilkan (minimal 12 karakter). Role:
-`admin`, `sales`, `marketing`.
+Langkahnya:
+
+1. isi ketiga variabel, lalu deploy;
+2. log build menampilkan `users:bootstrap: created the admin account …`;
+3. hapus `BOOTSTRAP_ADMIN_PASSWORD` (dan boleh juga email-nya) dari hPanel,
+   lalu login di `/login` dan ganti password bila perlu.
+
+Perintah ini tidak melakukan apa pun bila variabelnya kosong atau sudah ada
+admin, dan tidak pernah mengubah akun yang sudah ada. Isian yang tidak valid
+(email salah, password terlalu pendek, email milik akun non-admin)
+menggagalkan deploy dengan pesan jelas, dan versi sebelumnya tetap berjalan.
+Akun staf berikutnya dan perubahan role masih memakai `users:create` /
+`users:set-role`, yang memerlukan terminal: belum ada caranya di shared
+hosting.
 
 ### Pemeriksaan setelah deploy
 
@@ -170,6 +185,8 @@ Konfigurasi koneksi ada di `config/database.ts`:
 - `DB_CONNECTION=mysql`: production dan staging, dengan kredensial dari
   `DB_*`.
 
-Migration dijalankan oleh `build:hostinger` atau manual (SSH, dari folder
-aplikasi yang aktif) dengan `node build/ace.js migration:run --force`. Database development tidak pernah
+Migration dijalankan oleh `build:hostinger` saat deploy (shared hosting
+tidak punya SSH, jadi itu satu-satunya jalan; env database harus sudah benar
+sebelum deploy). Di server dengan terminal, perintah manualnya
+`node build/ace.js migration:run --force`. Database development tidak pernah
 disalin ke hosting.
