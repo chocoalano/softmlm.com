@@ -11,11 +11,15 @@
 import edge from 'edge.js'
 import { MARKETING_BRAND_NAME } from '#shared/brand'
 import { searchEngines } from '#config/seo'
+import shieldConfig, { cspMetaPolicy } from '#config/shield'
 
 edge.global('brandName', MARKETING_BRAND_NAME)
 
 /** `indexing` is false on staging: every page carries `<meta name="robots" content="noindex">`. */
 edge.global('searchEngines', searchEngines)
+
+/** The production CSP as a `<meta>` too, for hosts whose proxy replaces the header (config/shield.ts). */
+edge.global('cspMeta', shieldConfig.csp.enabled ? cspMetaPolicy() : null)
 
 /** JSON with `<`, `>`, `&` and line separators escaped, safe inside a `<script>` element. */
 function scriptJson(value: unknown) {

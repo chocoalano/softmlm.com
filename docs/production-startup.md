@@ -144,7 +144,11 @@ hosting.
 Ganti domain sesuai deployment:
 
 ```sh
-curl -I https://mlmsofts.com/en             # 200, ada Content-Security-Policy
+curl -I https://mlmsofts.com/en             # 200, ada Strict-Transport-Security
+# CSP ada di halaman (header CSP diganti CDN Hostinger menjadi
+# upgrade-insecure-requests saja; docs/security-audit.md, AUD-028).
+# Sec-GPC: 1 agar pemeriksaan ini tidak tercatat sebagai pengunjung.
+curl -s -H 'Sec-GPC: 1' https://mlmsofts.com/en | grep -o '<meta http-equiv="Content-Security-Policy"[^>]*>'
 curl -I https://mlmsofts.com/package.json   # harus 404
 curl -I https://mlmsofts.com/config/app.js  # harus 404
 curl -I https://mlmsofts.com/signup         # 404

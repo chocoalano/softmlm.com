@@ -36,7 +36,7 @@ Severity is one of CRITICAL, HIGH, MEDIUM, LOW, INFO.
 | CRITICAL | 0 | 0 | 0 |
 | HIGH | 0 | 0 | 0 |
 | MEDIUM | 7 | 6 | 1 (configuration: AUD-014) |
-| LOW | 9 | 6 | 3 |
+| LOW | 10 | 7 | 3 |
 | INFO | 11 | 2 | 9 |
 
 No CRITICAL or HIGH finding is open. The open MEDIUM is a production
@@ -265,6 +265,35 @@ configuration item (`trustProxy`, blocker #2), not a code defect. Phase 11B
 - **Status:** Fixed. `inertia/layouts/auth.vue` now shows a neutral staff
   note.
 
+**AUD-028: The hosting CDN replaces the CSP header**
+
+- **Scope:** MARKETING_SITE, INTERNAL_ADMIN
+- **Severity:** LOW
+- **Evidence:** On mlmsofts.com (2026-10-02) every response carries
+  `Content-Security-Policy: upgrade-insecure-requests` and nothing else,
+  also on unmatched routes that never reach shield. The app runs in
+  production mode there (Secure cookies, `/signup` 404), so shield did send
+  its policy: Hostinger's CDN (`server: hcdn`) overwrites the header. The
+  other security headers pass through unchanged.
+- **Impact:** On the live site nothing restricted scripts: an inline script
+  injected into a page ran. Templates still escape output (no known XSS),
+  so this is lost defence in depth.
+- **Recommendation:** Deliver the policy in the page as well.
+- **Status:** Fixed in code; to verify on the host after the next deploy.
+  - Every page repeats the production policy as
+    `<meta http-equiv="Content-Security-Policy">`, first in `<head>`
+    (`cspMetaPolicy` in `config/shield.ts`, the same directives as the
+    header except `frame-ancestors`, which a meta policy cannot carry;
+    X-Frame-Options: DENY, which the CDN keeps, covers framing).
+  - Test: "pages repeat the production CSP in a <meta>, ahead of every
+    style and script".
+  - Browser check (Chromium, the live pages and assets behind a local proxy
+    that drops the header and adds the meta, as the next deploy will
+    serve them): 11 pages in light at 1440px and dark at 390px, EN and ID,
+    the 404 and a client-side navigation mount with no CSP violation or
+    console error; an injected inline script is blocked. Without the meta,
+    the same injected script runs.
+
 ### Open
 
 **AUD-014: Client address behind the hosting proxy**
@@ -437,7 +466,7 @@ configuration item (`trustProxy`, blocker #2), not a code defect. Phase 11B
 | Email | Recipients and SMTP from the environment. Headers encoded by the mailer. SPF, DKIM and DMARC depend on the provider (blocker #5). |
 | Dependencies | `npm audit`: 0 vulnerabilities. Mail library kept at a patched version. |
 | Runtime | Node.js 24 required (host setting). |
-| Security headers and CSP | AUD-010 fixed; AUD-018 documented. |
+| Security headers and CSP | AUD-010 fixed; AUD-018 documented; AUD-028 fixed in code (CSP in the page, because the host's CDN replaces the header). |
 | Uploads | None. Multipart bodies are not processed (AUD-003). |
 | Tracking | First-party and anonymous; GPC and opt-out honoured; references resolve only for authorised staff; caps (AUD-004). |
 | Privacy | A privacy notice is required before launch (blocker #16). |
@@ -480,3 +509,24 @@ configuration item (`trustProxy`, blocker #2), not a code defect. Phase 11B
     sign-out.
 - **Accounts.** `users:create` works with a hidden prompt; a mixed-case
   email signs in.
+
+## Live host check (2026-10-02)
+
+The deployment live on mlmsofts.com that day (output `build/public`; it
+serves the `public/server.cjs` stub, so it is `8d09a2b` or later; the exact
+commit is visible in hPanel only). Read-only requests: HEAD for the
+exposure probes, GET for pages.
+
+- **Server files.** `/package.json`, `/config/app.js`, `/start/env.js`,
+  `/bin/server.js`, `/app/`, `/config/`, `/database/`, `/tests/` and
+  `/docs/security-audit.md` answer 404; `/.env` answers 403. The only
+  non-asset file served is the documented `/server.cjs` startup stub (one
+  `require`, no configuration).
+- **Pages.** All 48 sitemap URLs answer 200 with HSTS, X-Frame-Options
+  DENY, nosniff and Referrer-Policy; HTML is not cached by the CDN
+  (`x-hcdn-cache-status: DYNAMIC`). Cookies are Secure, HttpOnly
+  (except the CSRF token cookie) and SameSite=Lax.
+- **CSP.** Replaced by the CDN: AUD-028.
+- **Not checked from outside:** the Node.js version, the database engine,
+  sign-in and sign-out, the forms and mail (`docs/production-deployment.md`,
+  smoke test).

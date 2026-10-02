@@ -93,11 +93,11 @@ export const verifiedControls: VerifiedControl[] = [
     copy: {
       en: {
         title: 'Browser protections',
-        text: 'Pages are sent with security headers, including a content security policy, and error pages show no technical detail.',
+        text: 'Pages are sent with security headers and a content security policy, and error pages show no technical detail.',
       },
       id: {
         title: 'Perlindungan di browser',
-        text: 'Halaman dikirim dengan security header, termasuk content security policy, dan halaman error tidak menampilkan detail teknis.',
+        text: 'Halaman dikirim dengan security header dan content security policy, dan halaman error tidak menampilkan detail teknis.',
       },
     },
   },

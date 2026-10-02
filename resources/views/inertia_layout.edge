@@ -9,6 +9,8 @@
   - Open Graph / X card tags and JSON-LD, server-rendered only;
   - robots noindex for every page without SEO (back office, login, 404)
     and for every page on a deployment with indexing switched off.
+  Every page in production also repeats the Content-Security-Policy as a
+  <meta>, before any style or script (config/shield.ts, cspMetaPolicy).
 --}}
 @let(props = page.props)
 @let(marketing = Boolean(props.seo) || ['marketing_not_found', 'errors/server_error'].includes(page.component))
@@ -27,6 +29,9 @@
 >
   <head>
     <meta charset="utf-8" />
+    @if(cspMeta)
+      <meta http-equiv="Content-Security-Policy" content="{{ cspMeta }}" />
+    @end
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#005dfb" />
     <link rel="icon" href="/favicon.ico" sizes="any" />

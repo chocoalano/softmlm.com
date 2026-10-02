@@ -3,7 +3,8 @@ import app from '@adonisjs/core/services/app'
 import testUtils from '@adonisjs/core/services/test_utils'
 import type { ApiClient } from '@japa/api-client'
 import env from '#start/env'
-import shieldConfig from '#config/shield'
+import edge from 'edge.js'
+import shieldConfig, { cspMetaPolicy } from '#config/shield'
 import bodyParserConfig from '#config/bodyparser'
 import trackingConfig from '#config/marketing_tracking'
 import { SECURITY_HEADERS } from '#middleware/security_headers_middleware'
@@ -109,6 +110,40 @@ test.group('Security | response headers', () => {
     assert.deepEqual(directives.baseUri, ["'self'"])
     // the one documented exception (docs/security-audit.md)
     assert.include(directives.styleSrc, "'unsafe-inline'")
+  })
+
+  test('pages repeat the production CSP in a <meta>, ahead of every style and script', async ({
+    client,
+    assert,
+    cleanup,
+  }) => {
+    // Hostinger's CDN replaces the header; the meta policy is the header's minus frame-ancestors
+    assert.equal(
+      cspMetaPolicy(),
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+        "font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; " +
+        "object-src 'none'; base-uri 'self'; form-action 'self'"
+    )
+    // off outside production, like the header (Vite's dev server would be blocked)
+    const development = await client.get('/en')
+    assert.notInclude(development.text(), 'http-equiv="Content-Security-Policy"')
+
+    edge.global('cspMeta', cspMetaPolicy())
+    cleanup(() => {
+      edge.global('cspMeta', shieldConfig.csp.enabled ? cspMetaPolicy() : null)
+    })
+    for (const path of ['/en', '/id/pricing', '/login', '/en/no-such-page']) {
+      const response = await client.get(path)
+      const html = response.text()
+      const head = html.slice(0, html.indexOf('</head>'))
+      const meta = /<meta http-equiv="Content-Security-Policy" content="([^"]+)"/.exec(head)
+      assert.exists(meta, path)
+      const content = meta![1].replace(/&#x27;|&#39;/g, "'").replace(/&amp;/g, '&')
+      assert.equal(content, cspMetaPolicy(), path)
+      for (const tag of ['<style', '<script', '<link rel="stylesheet"']) {
+        if (head.includes(tag)) assert.isBelow(meta!.index, head.indexOf(tag), `${tag} on ${path}`)
+      }
+    }
   })
 
   test('multipart bodies are never written to disk', ({ assert }) => {

@@ -1,6 +1,36 @@
 import app from '@adonisjs/core/services/app'
 import { defineConfig } from '@adonisjs/shield'
 
+const cspDirectives = {
+  defaultSrc: ["'self'"],
+  scriptSrc: ["'self'"],
+  styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+  fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
+  imgSrc: ["'self'", 'data:'],
+  connectSrc: ["'self'"],
+  objectSrc: ["'none'"],
+  baseUri: ["'self'"],
+  formAction: ["'self'"],
+  frameAncestors: ["'none'"],
+}
+
+/**
+ * The same policy as a `<meta http-equiv>` value, written into every page
+ * (resources/views/inertia_layout.edge). Hostinger's CDN replaces the
+ * Content-Security-Policy header with its own `upgrade-insecure-requests`
+ * (mlmsofts.com, 2026-10-02), so the page has to carry the policy itself.
+ * `frame-ancestors` is not allowed in a meta policy (browsers ignore it and
+ * log an error); X-Frame-Options: DENY covers framing on every response.
+ */
+export function cspMetaPolicy(directives: Record<string, string[]> = cspDirectives) {
+  return Object.entries(directives)
+    .filter(([name]) => name !== 'frameAncestors')
+    .map(([name, sources]) =>
+      [name.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`), ...sources].join(' ')
+    )
+    .join('; ')
+}
+
 const shieldConfig = defineConfig({
   /**
    * Configure CSP policies for your app. Refer documentation
@@ -23,18 +53,7 @@ const shieldConfig = defineConfig({
      */
     enabled: app.inProduction,
 
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-      fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
-      imgSrc: ["'self'", 'data:'],
-      connectSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      baseUri: ["'self'"],
-      formAction: ["'self'"],
-      frameAncestors: ["'none'"],
-    },
+    directives: cspDirectives,
 
     reportOnly: false,
   },

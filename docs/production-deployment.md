@@ -134,11 +134,16 @@ Replace the domain if needed. Use QA identities clearly marked as QA
 1. **Server files are not public** (each must not answer 200):
    `/package.json`, `/config/app.js`, `/start/env.js`, `/bin/server.js`,
    `/.env`.
-2. **Pages** answer 200 with a `Content-Security-Policy` header: `/en`,
-   `/id`, `/en/pricing`, `/id/pricing`, `/en/compensation-plans`,
-   `/en/how-we-do-it`, `/en/services`, `/en/integrations`, `/en/security`,
-   `/en/privacy`, `/id/privacy`, `/en/terms`, `/id/terms`. An unknown path
-   answers 404 with `X-Robots-Tag: noindex`.
+2. **Pages** answer 200: `/en`, `/id`, `/en/pricing`, `/id/pricing`,
+   `/en/compensation-plans`, `/en/how-we-do-it`, `/en/services`,
+   `/en/integrations`, `/en/security`, `/en/privacy`, `/id/privacy`,
+   `/en/terms`, `/id/terms`. Each carries HSTS and X-Frame-Options, and its
+   source starts with `<meta http-equiv="Content-Security-Policy"
+   content="default-src 'self'; script-src 'self'; …">`. The
+   `Content-Security-Policy` *header* reads only `upgrade-insecure-requests`:
+   Hostinger's CDN replaces the app's header, which is why the page carries
+   the policy (`docs/security-audit.md`, AUD-028). An unknown path under
+   `/en/` or `/id/` answers 404 with `X-Robots-Tag: noindex`.
 3. **Assets**: JS, CSS, fonts, favicon, logo and `/og/social-card-en.jpg`
    load; the page source has no `localhost`, `:3333`, `:3334` or Vite
    dev-server URL.
@@ -160,6 +165,22 @@ Replace the domain if needed. Use QA identities clearly marked as QA
    session no longer opens the back office; a `marketing` user cannot open
    leads.
 9. **Runtime logs** in hPanel show no errors.
+
+## Last live verification (2026-10-02)
+
+Checked from outside with read-only requests (HEAD for the exposure
+probes). Send `Sec-GPC: 1` or a bot user agent with every live check: a
+browser user agent without it is recorded as a visitor in production
+analytics (the first pass on 2026-10-02, 02:11–02:13 UTC, was: about 55
+one-page anonymous visits, one with `utm_campaign=qa_audit`).
+
+| Step | Result |
+| --- | --- |
+| 1. Server files | 404 for every probe; `/.env` 403; `/server.cjs` is the documented stub |
+| 2. Pages | 48/48 sitemap URLs 200 with HSTS, X-Frame-Options, nosniff, Referrer-Policy; CSP header replaced by the CDN → fixed in code with the meta policy (AUD-028), check again after the next deploy |
+| 3. Assets | JS, CSS, favicons, social cards 200; no `localhost`, `:3333`, `:3334` or Vite client in any page |
+| 4. SEO | robots.txt and the 48 sitemap URLs on `https://mlmsofts.com`; one self-canonical per page; hreflang reciprocal; `?utm_*` canonicalises to the clean URL; `X-Forwarded-Host` ignored; legacy paths redirect in one hop; `/login` noindex |
+| 5–9 | Not run: they need the back office, a QA mailbox or hPanel (Runtime logs, Node version, database engine) |
 
 ## Rollback
 
